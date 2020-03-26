@@ -1,12 +1,13 @@
 using AlgoApp.Data;
-using JWT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.IO;
+using System.Text;
 
 namespace AlgoApp
 {
@@ -27,22 +28,22 @@ namespace AlgoApp
                 option.UseSqlite($"Data Source={dbpath}")
             );
 
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    //.AddCookie(configureOptions => configureOptions.LoginPath = "/Login");
-            //    .AddCookie();
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtAuthenticationDefaults.AuthenticationScheme;
-            }).AddJwt(options =>
-                      {
-                          // secrets
-                          options.Keys = new[] { "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk" };
-
-                          // force JwtDecoder to throw exception if JWT signature is invalid
-                          options.VerifySignature = true;
-                      });
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
 
             services.AddRazorPages();
         }

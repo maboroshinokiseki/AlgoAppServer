@@ -1,5 +1,6 @@
 ﻿using AlgoApp.Areas.Api.Models;
 using AlgoApp.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace AlgoApp.Areas.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClassRoomController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;

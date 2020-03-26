@@ -1,5 +1,8 @@
 ﻿using AlgoApp.Areas.Api.Models;
 using AlgoApp.Data;
+using AlgoApp.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -10,6 +13,7 @@ namespace AlgoApp.Areas.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuestionsController : ControllerBase
     {
         private ApplicationDbContext _dbContext;
@@ -21,8 +25,8 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpGet("{qid}")]
         public async Task<QuestionModel> GetQuestionAsync(int qid)
         {
-            var uid = int.Parse(HttpContext.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var role = HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Role).Value;
+            var uid = int.Parse(HttpContext.User.Claims.GetClaim(ClaimTypes.NameIdentifier));
+            var role = HttpContext.User.Claims.GetClaim(ClaimTypes.Role);
             var questionTemp = await _dbContext.Questions.FirstOrDefaultAsync(q => q.Id == qid);
             var question = new QuestionModel
             {
