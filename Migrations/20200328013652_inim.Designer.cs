@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlgoApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200325230224_init")]
-    partial class init
+    [Migration("20200328013652_inim")]
+    partial class inim
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,12 @@ namespace AlgoApp.Migrations
                             Id = 1,
                             ClassName = "t的Class",
                             TeacherId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClassName = "t2的Class",
+                            TeacherId = 3
                         });
                 });
 
@@ -328,10 +334,7 @@ namespace AlgoApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ClassRoomId")
+                    b.Property<int>("ClassRoomId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StudentId")
@@ -344,6 +347,14 @@ namespace AlgoApp.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("StudentsToClasses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassRoomId = 1,
+                            StudentId = 4
+                        });
                 });
 
             modelBuilder.Entity("AlgoApp.Data.User", b =>
@@ -387,10 +398,26 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 3,
+                            NickName = "老師2",
+                            Password = "t2",
+                            Role = 1,
+                            Username = "t2"
+                        },
+                        new
+                        {
+                            Id = 4,
                             NickName = "學生",
                             Password = "s",
                             Role = 2,
                             Username = "s"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            NickName = "學生2",
+                            Password = "s2",
+                            Role = 2,
+                            Username = "s2"
                         });
                 });
 
@@ -473,7 +500,9 @@ namespace AlgoApp.Migrations
                 {
                     b.HasOne("AlgoApp.Data.ClassRoom", "ClassRoom")
                         .WithMany("Students")
-                        .HasForeignKey("ClassRoomId");
+                        .HasForeignKey("ClassRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AlgoApp.Data.User", "Student")
                         .WithMany()

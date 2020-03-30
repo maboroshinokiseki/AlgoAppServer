@@ -1,5 +1,6 @@
 ﻿using AlgoApp.Areas.Api.Models;
 using AlgoApp.Data;
+using AlgoApp.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,7 +83,18 @@ namespace AlgoApp.Areas.Api.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<UserModel> CurrentUser()
         {
-            var user = await GetUser(User.Identity.Name);
+            var user = await _dbContext.Users.FindAsync(int.Parse(User.Claims.GetClaim(ClaimTypes.NameIdentifier)));
+            return new UserModel { Code = Codes.None, Username = user.Username, NickName = user.NickName, Role = user.Role };
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<UserModel> UserDetail(int id)
+        {
+            var user = await _dbContext.Users.FindAsync(id);
+            var correctRatio = await _dbContext.UserAnswers.Where(a => a.UserId == id).CountAsync() /
+                          await _dbContext.UserAnswers.Where(a => a.UserId == id && a.Correct == true).CountAsync();
+
             return new UserModel { Code = Codes.None, Username = user.Username, NickName = user.NickName, Role = user.Role };
         }
 

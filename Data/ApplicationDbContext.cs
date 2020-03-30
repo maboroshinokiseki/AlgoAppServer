@@ -30,7 +30,9 @@ namespace AlgoApp.Data
                 .Metadata.SetValueComparer(valueComparer);
             modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "root", Password = "root", Role = UserRole.Admin });
             modelBuilder.Entity<User>().HasData(new User { Id = 2, Username = "t", Password = "t",NickName="老師", Role = UserRole.Teacher });
-            modelBuilder.Entity<User>().HasData(new User { Id = 3, Username = "s", Password = "s",NickName="學生", Role = UserRole.Student });
+            modelBuilder.Entity<User>().HasData(new User { Id = 3, Username = "t2", Password = "t2", NickName = "老師2", Role = UserRole.Teacher });
+            modelBuilder.Entity<User>().HasData(new User { Id = 4, Username = "s", Password = "s",NickName="學生", Role = UserRole.Student });
+            modelBuilder.Entity<User>().HasData(new User { Id = 5, Username = "s2", Password = "s2", NickName = "學生2", Role = UserRole.Student });
             modelBuilder.Entity<Chapter>().HasData(new Chapter { Id = 1, Name = "第一章", Order = 0 });
             modelBuilder.Entity<Chapter>().HasData(new Chapter { Id = 2, Name = "第二章", Order = 1 });
             modelBuilder.Entity<Question>().HasData(new Question { Id = 1, ChapterId = 1, Content = "選擇正確答案", Analysis = "無", Type = QuestionType.SingleSelection, Difficulty = 0 });
@@ -54,6 +56,8 @@ namespace AlgoApp.Data
             modelBuilder.Entity<SelectionOption>().HasData(new SelectionOption { Id = 15, QuestionId = 4, Correct = false, Content = "錯誤" });
             modelBuilder.Entity<SelectionOption>().HasData(new SelectionOption { Id = 16, QuestionId = 4, Correct = true, Content = "正確" });
             modelBuilder.Entity<ClassRoom>().HasData(new ClassRoom { Id = 1, TeacherId = 2, ClassName = "t的Class" });
+            modelBuilder.Entity<ClassRoom>().HasData(new ClassRoom { Id = 2, TeacherId = 3, ClassName = "t2的Class" });
+            modelBuilder.Entity<StudentToClass>().HasData(new StudentToClass { Id = 1, ClassRoomId = 1, StudentId = 4 });
         }
     }
 }

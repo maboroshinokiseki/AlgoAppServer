@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -93,7 +94,7 @@ namespace AlgoApp.Areas.Api.Controllers
         public async Task<CommonResultModel> JoinClassRomm(int id)
         {
             var uid = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            _dbContext.StudentsToClasses.Add(new StudentToClass { ClassId = id, StudentId = uid });
+            _dbContext.StudentsToClasses.Add(new StudentToClass { ClassRoomId = id, StudentId = uid });
             await _dbContext.SaveChangesAsync();
 
             return new CommonResultModel { Code = Codes.None };
@@ -101,11 +102,27 @@ namespace AlgoApp.Areas.Api.Controllers
 
         public async Task<CommonResultModel> RemoveFromClassRomm(int cid, int uid)
         {
-            var stoc = await _dbContext.StudentsToClasses.FirstAsync(sc => sc.ClassId == cid && sc.StudentId == uid);
+            var stoc = await _dbContext.StudentsToClasses.FirstAsync(sc => sc.ClassRoomId == cid && sc.StudentId == uid);
             _dbContext.Remove(stoc);
             await _dbContext.SaveChangesAsync();
 
             return new CommonResultModel { Code = Codes.None };
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ClassRoomModel> ClassRoom(int id)
+        {
+            var classRoom = await _dbContext.ClassRooms.FindAsync(id);
+            await _dbContext.Entry(classRoom).Collection(c => c.Students).LoadAsync();
+            var students = new List<UserModel>();
+
+            foreach (var sc in classRoom.Students)
+            {
+                await _dbContext.Entry(sc).Reference(nameof(sc.Student)).LoadAsync();
+                students.Add(new UserModel { NickName = sc.Student.NickName });
+            }
+
+            return new ClassRoomModel { Id = classRoom.Id, Name = classRoom.ClassName, Students = students, StudentCount = students.Count };
         }
     }
 }

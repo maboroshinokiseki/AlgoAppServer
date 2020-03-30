@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlgoApp.Migrations
 {
-    public partial class init : Migration
+    public partial class inim : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -178,8 +178,7 @@ namespace AlgoApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ClassId = table.Column<int>(nullable: false),
-                    ClassRoomId = table.Column<int>(nullable: true),
+                    ClassRoomId = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -190,7 +189,7 @@ namespace AlgoApp.Migrations
                         column: x => x.ClassRoomId,
                         principalTable: "ClassRooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StudentsToClasses_Users_StudentId",
                         column: x => x.StudentId,
@@ -222,12 +221,27 @@ namespace AlgoApp.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
-                values: new object[] { 3, "學生", "s", 2, "s" });
+                values: new object[] { 3, "老師2", "t2", 1, "t2" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
+                values: new object[] { 4, "學生", "s", 2, "s" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
+                values: new object[] { 5, "學生2", "s2", 2, "s2" });
 
             migrationBuilder.InsertData(
                 table: "ClassRooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
                 values: new object[] { 1, "t的Class", 2 });
+
+            migrationBuilder.InsertData(
+                table: "ClassRooms",
+                columns: new[] { "Id", "ClassName", "TeacherId" },
+                values: new object[] { 2, "t2的Class", 3 });
 
             migrationBuilder.InsertData(
                 table: "Questions",
@@ -257,62 +271,7 @@ namespace AlgoApp.Migrations
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 2, "錯誤", false, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 3, "錯誤", false, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 4, "正確", true, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 5, "錯誤", false, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 6, "錯誤", false, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 7, "錯誤", false, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 8, "正確", true, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 9, "錯誤", false, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 10, "錯誤", false, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 11, "錯誤", false, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 12, "正確", true, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 13, "錯誤", false, 4 });
+                values: new object[] { 15, "錯誤", false, 4 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
@@ -322,12 +281,72 @@ namespace AlgoApp.Migrations
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 15, "錯誤", false, 4 });
+                values: new object[] { 13, "錯誤", false, 4 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 12, "正確", true, 3 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 11, "錯誤", false, 3 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 10, "錯誤", false, 3 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
                 values: new object[] { 16, "正確", true, 4 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 9, "錯誤", false, 3 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 7, "錯誤", false, 2 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 6, "錯誤", false, 2 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 5, "錯誤", false, 2 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 4, "正確", true, 1 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 3, "錯誤", false, 1 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 2, "錯誤", false, 1 });
+
+            migrationBuilder.InsertData(
+                table: "SelectionOptions",
+                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
+                values: new object[] { 8, "正確", true, 2 });
+
+            migrationBuilder.InsertData(
+                table: "StudentsToClasses",
+                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                values: new object[] { 1, 1, 4 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassRooms_TeacherId",
