@@ -22,15 +22,15 @@ namespace AlgoApp.Areas.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ChapterListModel> GetChaptersAsync()
+        public async Task<CommonListResultModel<Chapter>> GetChaptersAsync()
         {
-            return new ChapterListModel { Code = Codes.None, Chapters = await _dbContext.Chapters.OrderBy(c => c.Order).ToListAsync() };
+            return new CommonListResultModel<Chapter> { Code = Codes.None, Items = await _dbContext.Chapters.OrderBy(c => c.Order).ToListAsync() };
         }
 
         [HttpGet("{cid}/questions")]
-        public async Task<QuestionListModel> GetQuestionsAsync(int cid)
+        public async Task<CommonListResultModel<Question>> GetQuestionsAsync(int cid)
         {
-            return new QuestionListModel { Code = Codes.None, Questions = await _dbContext.Questions.Where(q => q.ChapterId == cid).ToListAsync() };
+            return new CommonListResultModel<Question> { Code = Codes.None, Items = await _dbContext.Questions.Where(q => q.ChapterId == cid).ToListAsync() };
         }
     }
 }

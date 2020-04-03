@@ -7,5 +7,7 @@ namespace AlgoApp.Areas.Api.Models
         LoginFailed,
         RegistrationFailed,
         TimeOut,
+        UserAlreadyInClass,
+        NoRecord,
     }
 }

@@ -20,6 +20,7 @@ namespace AlgoApp.Areas.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
         private ApplicationDbContext _dbContext;
@@ -39,6 +40,7 @@ namespace AlgoApp.Areas.Api.Controllers
             public string Password { get; set; }
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<LoginResultModel> Login([FromBody] PostModel model)
         {
@@ -51,12 +53,13 @@ namespace AlgoApp.Areas.Api.Controllers
                     return new LoginResultModel { Code = Codes.LoginFailed, Description = "Wrong Username or Password." };
                 }
 
-                return new LoginResultModel { Code = Codes.None, Description = "Success.", Role = user.Role.ToString(), Token = GenarateToken(user) };
+                return new LoginResultModel { Code = Codes.None, Description = "Success.", UserId = user.Id, Role = user.Role.ToString(), Token = GenarateToken(user) };
             }
 
             return new LoginResultModel { Code = Codes.Unknown, Description = "Unknow error." };
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<LoginResultModel> Register([FromBody] PostModel model)
         {
@@ -69,33 +72,48 @@ namespace AlgoApp.Areas.Api.Controllers
                     return new LoginResultModel { Code = Codes.RegistrationFailed, Description = "User already exists." };
                 }
 
-                user = new User { Username = model.Username, Password = model.Password, NickName = model.Username, Role = UserRole.Student };
+                user = new User { Username = model.Username.ToLower(), Password = model.Password, NickName = model.Username, Role = UserRole.Student };
 
                 await AddUser(user);
 
-                return new LoginResultModel { Code = Codes.None, Description = "Success.", Token = GenarateToken(user) };
+                return new LoginResultModel { Code = Codes.None, Description = "Success.", UserId = user.Id, Token = GenarateToken(user) };
             }
 
             return new LoginResultModel { Code = Codes.Unknown, Description = "Unknow error." };
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<UserModel> CurrentUser()
         {
-            var user = await _dbContext.Users.FindAsync(int.Parse(User.Claims.GetClaim(ClaimTypes.NameIdentifier)));
-            return new UserModel { Code = Codes.None, Username = user.Username, NickName = user.NickName, Role = user.Role };
+            var uid = int.Parse(User.Claims.GetClaim(ClaimTypes.NameIdentifier));
+            return await UserDetail(uid);
         }
 
         [HttpGet("{id}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<UserModel> UserDetail(int id)
         {
             var user = await _dbContext.Users.FindAsync(id);
-            var correctRatio = await _dbContext.UserAnswers.Where(a => a.UserId == id).CountAsync() /
-                          await _dbContext.UserAnswers.Where(a => a.UserId == id && a.Correct == true).CountAsync();
+            double answerCount = await _dbContext.UserAnswers.Where(a => a.UserId == id).CountAsync();
+            double correctCount = await _dbContext.UserAnswers.Where(a => a.UserId == id && a.Correct == true).CountAsync();
+            var ratio = answerCount == 0 ? 0 : correctCount / answerCount;
+            var doneCount = await _dbContext.UserAnswers.Where(a => a.UserId == id).GroupBy(a => a.QuestionId).CountAsync();
+            var result = new UserModel { Code = Codes.None, CorrectRatio = ratio, DoneQuestionCount = doneCount };
+            return ObjectMapper.Map(user, result);
+        }
 
-            return new UserModel { Code = Codes.None, Username = user.Username, NickName = user.NickName, Role = user.Role };
+        [HttpGet("{id}/{name}")]
+        public async Task<CommonListResultModel<UserModel>> SearchStudentsNotInClass(int id, string name)
+        {
+            var students = await _dbContext.Users.Where(u => u.Role == UserRole.Student &&
+                                                        u.NickName.Contains(name) &&
+                                                        _dbContext.StudentsToClasses.Where(c => c.ClassRoomId == id && c.StudentId == u.Id).Count() == 0).ToListAsync();
+            var result = new CommonListResultModel<UserModel> { Items = new List<UserModel>() };
+            foreach (var s in students)
+            {
+                result.Items.Add(new UserModel { Id = s.Id, NickName = s.NickName });
+            }
+
+            return result;
         }
 
         private async Task<User> GetUser(string username, string password = null)
@@ -103,12 +121,12 @@ namespace AlgoApp.Areas.Api.Controllers
             if (password == null)
             {
                 return await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == username);
+                .FirstOrDefaultAsync(u => u.Username == username.ToLower());
             }
             else
             {
                 return await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == username && u.Password == password && u.Role != UserRole.Admin);
+                .FirstOrDefaultAsync(u => u.Username == username.ToLower() && u.Password == password && u.Role != UserRole.Admin);
             }
 
         }

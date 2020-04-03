@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlgoApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200328013652_inim")]
-    partial class inim
+    [Migration("20200403053600_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,13 +71,13 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 1,
-                            ClassName = "t的Class",
+                            ClassName = "赵老师的班级",
                             TeacherId = 2
                         },
                         new
                         {
                             Id = 2,
-                            ClassName = "t2的Class",
+                            ClassName = "钱老师的班级",
                             TeacherId = 3
                         });
                 });
@@ -135,37 +135,37 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 1,
-                            Analysis = "無",
+                            Analysis = "无",
                             ChapterId = 1,
-                            Content = "選擇正確答案",
+                            Content = "采用邻接表存储的图的广度优先遍历算法类似于二叉树的（）。",
                             Difficulty = 0,
                             Type = 0
                         },
                         new
                         {
                             Id = 2,
-                            Analysis = "無",
+                            Analysis = "判断链表有没有环，可以用快慢指针来实现，两指针的移动速度不一样。如果相遇，则表示有环，否则表示无环。",
                             ChapterId = 1,
-                            Content = "選擇正確答案",
-                            Difficulty = 0,
+                            Content = "如果使用比较高效的算法判断单链表有没有环的算法中，至少需要几个指针？",
+                            Difficulty = 1,
                             Type = 0
                         },
                         new
                         {
                             Id = 3,
-                            Analysis = "無",
+                            Analysis = "有向图是n，无向图是n-1。",
                             ChapterId = 2,
-                            Content = "選擇正確答案",
-                            Difficulty = 0,
+                            Content = "要连通具有n个顶点的有向图,至少需要（）条边？",
+                            Difficulty = 2,
                             Type = 0
                         },
                         new
                         {
                             Id = 4,
-                            Analysis = "無",
+                            Analysis = "本题考点是有向图中顶点度的概念。有向图的某个顶点v，把以v为终点的边的数目，称为v的入度；以v为始点的边的数目，称为v的出度；v的度则定义为该顶点的入度和出度之和。因此，本题参考答案是C。",
                             ChapterId = 2,
-                            Content = "選擇正確答案",
-                            Difficulty = 0,
+                            Content = "有向图的一个顶点的度为该顶点的（）。",
+                            Difficulty = 3,
                             Type = 0
                         });
                 });
@@ -217,113 +217,113 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 1,
-                            Content = "錯誤",
+                            Content = "先序遍历",
                             Correct = false,
                             QuestionId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Content = "錯誤",
+                            Content = "中序遍历",
                             Correct = false,
                             QuestionId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Content = "錯誤",
+                            Content = "后序遍历",
                             Correct = false,
                             QuestionId = 1
                         },
                         new
                         {
                             Id = 4,
-                            Content = "正確",
+                            Content = "按层遍历",
                             Correct = true,
                             QuestionId = 1
                         },
                         new
                         {
                             Id = 5,
-                            Content = "錯誤",
+                            Content = "不需要",
                             Correct = false,
                             QuestionId = 2
                         },
                         new
                         {
                             Id = 6,
-                            Content = "錯誤",
+                            Content = "1个",
                             Correct = false,
                             QuestionId = 2
                         },
                         new
                         {
                             Id = 7,
-                            Content = "錯誤",
-                            Correct = false,
-                            QuestionId = 2
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Content = "正確",
+                            Content = "2个",
                             Correct = true,
                             QuestionId = 2
                         },
                         new
                         {
+                            Id = 8,
+                            Content = "3个",
+                            Correct = false,
+                            QuestionId = 2
+                        },
+                        new
+                        {
                             Id = 9,
-                            Content = "錯誤",
+                            Content = "n-1",
                             Correct = false,
                             QuestionId = 3
                         },
                         new
                         {
                             Id = 10,
-                            Content = "錯誤",
-                            Correct = false,
+                            Content = "n",
+                            Correct = true,
                             QuestionId = 3
                         },
                         new
                         {
                             Id = 11,
-                            Content = "錯誤",
+                            Content = "n+1",
                             Correct = false,
                             QuestionId = 3
                         },
                         new
                         {
                             Id = 12,
-                            Content = "正確",
-                            Correct = true,
+                            Content = "2n",
+                            Correct = false,
                             QuestionId = 3
                         },
                         new
                         {
                             Id = 13,
-                            Content = "錯誤",
+                            Content = "入度",
                             Correct = false,
                             QuestionId = 4
                         },
                         new
                         {
                             Id = 14,
-                            Content = "錯誤",
+                            Content = "出度",
                             Correct = false,
                             QuestionId = 4
                         },
                         new
                         {
                             Id = 15,
-                            Content = "錯誤",
-                            Correct = false,
+                            Content = "入度与出度之和",
+                            Correct = true,
                             QuestionId = 4
                         },
                         new
                         {
                             Id = 16,
-                            Content = "正確",
-                            Correct = true,
+                            Content = "(入度＋出度)/2",
+                            Correct = false,
                             QuestionId = 4
                         });
                 });
@@ -363,11 +363,20 @@ namespace AlgoApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("BirthDay")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("NickName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Role")
                         .HasColumnType("INTEGER");
@@ -383,41 +392,56 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 1,
+                            BirthDay = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = 0,
                             Password = "root",
+                            Points = 0,
                             Role = 0,
                             Username = "root"
                         },
                         new
                         {
                             Id = 2,
-                            NickName = "老師",
-                            Password = "t",
+                            BirthDay = new DateTime(2000, 4, 3, 13, 36, 0, 280, DateTimeKind.Local).AddTicks(5069),
+                            Gender = 1,
+                            NickName = "赵老师",
+                            Password = "123",
+                            Points = 0,
                             Role = 1,
-                            Username = "t"
+                            Username = "teacherzhao"
                         },
                         new
                         {
                             Id = 3,
-                            NickName = "老師2",
-                            Password = "t2",
+                            BirthDay = new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4353),
+                            Gender = 2,
+                            NickName = "钱老师",
+                            Password = "123",
+                            Points = 0,
                             Role = 1,
-                            Username = "t2"
+                            Username = "teacherqian"
                         },
                         new
                         {
                             Id = 4,
-                            NickName = "學生",
-                            Password = "s",
+                            BirthDay = new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4406),
+                            Gender = 1,
+                            NickName = "孙同学",
+                            Password = "123",
+                            Points = 0,
                             Role = 2,
-                            Username = "s"
+                            Username = "studentsun"
                         },
                         new
                         {
                             Id = 5,
-                            NickName = "學生2",
-                            Password = "s2",
+                            BirthDay = new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4429),
+                            Gender = 2,
+                            NickName = "李同学",
+                            Password = "123",
+                            Points = 0,
                             Role = 2,
-                            Username = "s2"
+                            Username = "studentli"
                         });
                 });
 

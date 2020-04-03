@@ -12,5 +12,8 @@ namespace AlgoApp.Data
         public string Password { get; set; }
         public string NickName { get; set; }
         public UserRole Role { get; set; }
+        public int Points { get; set; }
+        public Gender Gender { get; set; }
+        public DateTime BirthDay { get; set; }
     }
 }

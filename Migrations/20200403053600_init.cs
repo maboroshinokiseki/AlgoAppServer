@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlgoApp.Migrations
 {
-    public partial class inim : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,10 @@ namespace AlgoApp.Migrations
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     NickName = table.Column<string>(nullable: true),
-                    Role = table.Column<int>(nullable: false)
+                    Role = table.Column<int>(nullable: false),
+                    Points = table.Column<int>(nullable: false),
+                    Gender = table.Column<int>(nullable: false),
+                    BirthDay = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,138 +213,138 @@ namespace AlgoApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
-                values: new object[] { 1, null, "root", 0, "root" });
+                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null, "root", 0, 0, "root" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
-                values: new object[] { 2, "老師", "t", 1, "t" });
+                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
+                values: new object[] { 2, new DateTime(2000, 4, 3, 13, 36, 0, 280, DateTimeKind.Local).AddTicks(5069), 1, "赵老师", "123", 0, 1, "teacherzhao" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
-                values: new object[] { 3, "老師2", "t2", 1, "t2" });
+                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
+                values: new object[] { 3, new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4353), 2, "钱老师", "123", 0, 1, "teacherqian" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
-                values: new object[] { 4, "學生", "s", 2, "s" });
+                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
+                values: new object[] { 4, new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4406), 1, "孙同学", "123", 0, 2, "studentsun" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "NickName", "Password", "Role", "Username" },
-                values: new object[] { 5, "學生2", "s2", 2, "s2" });
+                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
+                values: new object[] { 5, new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4429), 2, "李同学", "123", 0, 2, "studentli" });
 
             migrationBuilder.InsertData(
                 table: "ClassRooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
-                values: new object[] { 1, "t的Class", 2 });
+                values: new object[] { 1, "赵老师的班级", 2 });
 
             migrationBuilder.InsertData(
                 table: "ClassRooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
-                values: new object[] { 2, "t2的Class", 3 });
+                values: new object[] { 2, "钱老师的班级", 3 });
 
             migrationBuilder.InsertData(
                 table: "Questions",
                 columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 1, "無", 1, "選擇正確答案", 0, 0 });
+                values: new object[] { 1, "无", 1, "采用邻接表存储的图的广度优先遍历算法类似于二叉树的（）。", 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "Questions",
                 columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 2, "無", 1, "選擇正確答案", 0, 0 });
+                values: new object[] { 2, "判断链表有没有环，可以用快慢指针来实现，两指针的移动速度不一样。如果相遇，则表示有环，否则表示无环。", 1, "如果使用比较高效的算法判断单链表有没有环的算法中，至少需要几个指针？", 1, 0 });
 
             migrationBuilder.InsertData(
                 table: "Questions",
                 columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 3, "無", 2, "選擇正確答案", 0, 0 });
+                values: new object[] { 3, "有向图是n，无向图是n-1。", 2, "要连通具有n个顶点的有向图,至少需要（）条边？", 2, 0 });
 
             migrationBuilder.InsertData(
                 table: "Questions",
                 columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 4, "無", 2, "選擇正確答案", 0, 0 });
+                values: new object[] { 4, "本题考点是有向图中顶点度的概念。有向图的某个顶点v，把以v为终点的边的数目，称为v的入度；以v为始点的边的数目，称为v的出度；v的度则定义为该顶点的入度和出度之和。因此，本题参考答案是C。", 2, "有向图的一个顶点的度为该顶点的（）。", 3, 0 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 1, "錯誤", false, 1 });
+                values: new object[] { 1, "先序遍历", false, 1 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 15, "錯誤", false, 4 });
+                values: new object[] { 15, "入度与出度之和", true, 4 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 14, "錯誤", false, 4 });
+                values: new object[] { 14, "出度", false, 4 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 13, "錯誤", false, 4 });
+                values: new object[] { 13, "入度", false, 4 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 12, "正確", true, 3 });
+                values: new object[] { 12, "2n", false, 3 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 11, "錯誤", false, 3 });
+                values: new object[] { 11, "n+1", false, 3 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 10, "錯誤", false, 3 });
+                values: new object[] { 10, "n", true, 3 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 16, "正確", true, 4 });
+                values: new object[] { 16, "(入度＋出度)/2", false, 4 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 9, "錯誤", false, 3 });
+                values: new object[] { 9, "n-1", false, 3 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 7, "錯誤", false, 2 });
+                values: new object[] { 7, "2个", true, 2 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 6, "錯誤", false, 2 });
+                values: new object[] { 6, "1个", false, 2 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 5, "錯誤", false, 2 });
+                values: new object[] { 5, "不需要", false, 2 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 4, "正確", true, 1 });
+                values: new object[] { 4, "按层遍历", true, 1 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 3, "錯誤", false, 1 });
+                values: new object[] { 3, "后序遍历", false, 1 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 2, "錯誤", false, 1 });
+                values: new object[] { 2, "中序遍历", false, 1 });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 8, "正確", true, 2 });
+                values: new object[] { 8, "3个", false, 2 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
