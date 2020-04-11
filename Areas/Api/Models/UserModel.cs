@@ -7,7 +7,7 @@ namespace AlgoApp.Areas.Api.Models
     {
         public int Id { get; set; }
         public string Username { get; set; }
-        public string NickName { get; set; }
+        public string Nickname { get; set; }
         public int Points { get; set; }
         public UserRole Role { get; set; }
         public Gender Gender { get; set; }

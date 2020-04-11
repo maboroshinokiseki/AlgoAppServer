@@ -1,16 +1,14 @@
-﻿using System;
+﻿using AlgoApp.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AlgoApp.Data;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace AlgoApp
 {
@@ -48,7 +46,7 @@ namespace AlgoApp
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Wrong Username or Password.");
+                    ModelState.AddModelError(string.Empty, "用户名或密码错误.");
                     return Page();
                 }
 
@@ -63,8 +61,7 @@ namespace AlgoApp
 
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMonths(1),
+                    IsPersistent = false
                 };
 
                 await HttpContext.SignInAsync(
@@ -72,7 +69,7 @@ namespace AlgoApp
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return Redirect("/test");
+                return Redirect("/Admin/");
             }
             // Something failed. Redisplay the form.
             return Page();

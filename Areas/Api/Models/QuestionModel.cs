@@ -10,6 +10,7 @@ namespace AlgoApp.Areas.Api.Models
         public QuestionType Type { get; set; }
         public List<Option> Options { get; set; }
         public QuestionStatus Status { get; set; }
+        public string Analysis { get; set; }
         public AnswerResultModel AnswerResult { get; set; }
 
         public class Option

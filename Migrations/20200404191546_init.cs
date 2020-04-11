@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AlgoApp.Migrations
@@ -12,7 +13,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false)
                 },
@@ -26,9 +27,9 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Username = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Username = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     NickName = table.Column<string>(nullable: true),
                     Role = table.Column<int>(nullable: false),
                     Points = table.Column<int>(nullable: false),
@@ -45,7 +46,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: true),
                     Analysis = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
@@ -68,7 +69,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TeacherId = table.Column<int>(nullable: false),
                     ClassName = table.Column<string>(nullable: true)
                 },
@@ -84,11 +85,101 @@ namespace AlgoApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DailyPoints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    Points = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DailyPoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DailyPoints_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DailyPractices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DailyPractices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DailyPractices_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    MessageType = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: true),
+                    Read = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bookmarks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    QuestionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookmarks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bookmarks_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookmarks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FillingAnswers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: true),
                     QuestionId = table.Column<int>(nullable: false),
                     Order = table.Column<int>(nullable: false)
@@ -109,7 +200,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Input = table.Column<string>(nullable: true),
                     Output = table.Column<string>(nullable: true),
                     QuestionId = table.Column<int>(nullable: false)
@@ -130,7 +221,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: true),
                     QuestionId = table.Column<int>(nullable: false),
                     Correct = table.Column<bool>(nullable: false)
@@ -151,7 +242,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     QuestionId = table.Column<int>(nullable: false),
                     Correct = table.Column<bool>(nullable: false),
@@ -180,7 +271,7 @@ namespace AlgoApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClassRoomId = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false)
                 },
@@ -204,152 +295,114 @@ namespace AlgoApp.Migrations
             migrationBuilder.InsertData(
                 table: "Chapters",
                 columns: new[] { "Id", "Name", "Order" },
-                values: new object[] { 1, "第一章", 0 });
-
-            migrationBuilder.InsertData(
-                table: "Chapters",
-                columns: new[] { "Id", "Name", "Order" },
-                values: new object[] { 2, "第二章", 1 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null, "root", 0, 0, "root" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
-                values: new object[] { 2, new DateTime(2000, 4, 3, 13, 36, 0, 280, DateTimeKind.Local).AddTicks(5069), 1, "赵老师", "123", 0, 1, "teacherzhao" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
-                values: new object[] { 3, new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4353), 2, "钱老师", "123", 0, 1, "teacherqian" });
+                values: new object[,]
+                {
+                    { 1, "绪论", 0 },
+                    { 11, "外部排序", 0 },
+                    { 10, "内部排序", 0 },
+                    { 8, "动态存储管理", 0 },
+                    { 7, "图", 0 },
+                    { 9, "查找", 0 },
+                    { 5, "数组和广义表", 0 },
+                    { 4, "串", 0 },
+                    { 3, "栈和队列", 0 },
+                    { 2, "线性表", 0 },
+                    { 6, "树和二叉树", 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
-                values: new object[] { 4, new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4406), 1, "孙同学", "123", 0, 2, "studentsun" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "BirthDay", "Gender", "NickName", "Password", "Points", "Role", "Username" },
-                values: new object[] { 5, new DateTime(2000, 4, 3, 13, 36, 0, 281, DateTimeKind.Local).AddTicks(4429), 2, "李同学", "123", 0, 2, "studentli" });
+                values: new object[,]
+                {
+                    { 10, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3350), 2, "冯同学", "123", 0, 2, "student10" },
+                    { 15, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3362), 2, "沈同学", "123", 0, 2, "student11" },
+                    { 14, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3360), 2, "蒋同学", "123", 0, 2, "student10" },
+                    { 13, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3357), 2, "卫同学", "123", 0, 2, "student13" },
+                    { 12, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3355), 2, "褚同学", "123", 0, 2, "student12" },
+                    { 11, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3353), 2, "陈同学", "123", 0, 2, "student11" },
+                    { 9, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3347), 2, "王同学", "123", 0, 2, "student09" },
+                    { 3, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3304), 2, "钱老师", "123", 0, 1, "teacherqian" },
+                    { 7, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3341), 2, "吴同学", "123", 0, 2, "student07" },
+                    { 6, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3339), 2, "周同学", "123", 0, 2, "student06" },
+                    { 5, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3336), 2, "李同学", "123", 0, 2, "studentli" },
+                    { 4, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3332), 1, "孙同学", "123", 0, 2, "studentsun" },
+                    { 16, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3364), 2, "韩同学", "123", 0, 2, "student12" },
+                    { 2, new DateTime(2000, 4, 5, 3, 15, 45, 813, DateTimeKind.Local).AddTicks(4023), 1, "赵老师", "123", 0, 1, "teacherzhao" },
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null, "root", 0, 0, "root" },
+                    { 8, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3344), 2, "郑同学", "123", 0, 2, "student08" },
+                    { 17, new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3367), 2, "杨同学", "123", 0, 2, "student13" }
+                });
 
             migrationBuilder.InsertData(
                 table: "ClassRooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
-                values: new object[] { 1, "赵老师的班级", 2 });
-
-            migrationBuilder.InsertData(
-                table: "ClassRooms",
-                columns: new[] { "Id", "ClassName", "TeacherId" },
-                values: new object[] { 2, "钱老师的班级", 3 });
-
-            migrationBuilder.InsertData(
-                table: "Questions",
-                columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 1, "无", 1, "采用邻接表存储的图的广度优先遍历算法类似于二叉树的（）。", 0, 0 });
+                values: new object[,]
+                {
+                    { 1, "赵老师的班级_计科", 2 },
+                    { 2, "赵老师的班级_电信", 2 },
+                    { 3, "钱老师的班级", 3 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Questions",
                 columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 2, "判断链表有没有环，可以用快慢指针来实现，两指针的移动速度不一样。如果相遇，则表示有环，否则表示无环。", 1, "如果使用比较高效的算法判断单链表有没有环的算法中，至少需要几个指针？", 1, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Questions",
-                columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 3, "有向图是n，无向图是n-1。", 2, "要连通具有n个顶点的有向图,至少需要（）条边？", 2, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Questions",
-                columns: new[] { "Id", "Analysis", "ChapterId", "Content", "Difficulty", "Type" },
-                values: new object[] { 4, "本题考点是有向图中顶点度的概念。有向图的某个顶点v，把以v为终点的边的数目，称为v的入度；以v为始点的边的数目，称为v的出度；v的度则定义为该顶点的入度和出度之和。因此，本题参考答案是C。", 2, "有向图的一个顶点的度为该顶点的（）。", 3, 0 });
+                values: new object[,]
+                {
+                    { 1, "无", 1, "算法的时间复杂度是指（）。", 0, 0 },
+                    { 2, "无", 1, "算法的空间复杂度是指（）。", 0, 0 },
+                    { 3, "无", 1, "以下哪个不是算法的重要特性（）。", 0, 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "SelectionOptions",
                 columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 1, "先序遍历", false, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 15, "入度与出度之和", true, 4 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 14, "出度", false, 4 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 13, "入度", false, 4 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 12, "2n", false, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 11, "n+1", false, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 10, "n", true, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 16, "(入度＋出度)/2", false, 4 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 9, "n-1", false, 3 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 7, "2个", true, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 6, "1个", false, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 5, "不需要", false, 2 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 4, "按层遍历", true, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 3, "后序遍历", false, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 2, "中序遍历", false, 1 });
-
-            migrationBuilder.InsertData(
-                table: "SelectionOptions",
-                columns: new[] { "Id", "Content", "Correct", "QuestionId" },
-                values: new object[] { 8, "3个", false, 2 });
+                values: new object[,]
+                {
+                    { 1, "开发算法所花费的时间", false, 1 },
+                    { 12, "易用性", true, 3 },
+                    { 11, "可行性", false, 3 },
+                    { 10, "确定性", false, 3 },
+                    { 8, "以上都不对", true, 2 },
+                    { 7, "程序执行所需内存大小", false, 2 },
+                    { 9, "有穷性", false, 3 },
+                    { 5, "算法代码的大小", false, 2 },
+                    { 4, "以上都不对", true, 1 },
+                    { 3, "程序执行所需时间", false, 1 },
+                    { 2, "学习算法所需要的时间", false, 1 },
+                    { 6, "算法所能处理数据的大小", false, 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
                 columns: new[] { "Id", "ClassRoomId", "StudentId" },
-                values: new object[] { 1, 1, 4 });
+                values: new object[,]
+                {
+                    { 8, 1, 11 },
+                    { 12, 2, 15 },
+                    { 11, 2, 14 },
+                    { 10, 1, 13 },
+                    { 9, 1, 12 },
+                    { 7, 1, 10 },
+                    { 1, 1, 4 },
+                    { 5, 1, 8 },
+                    { 4, 1, 7 },
+                    { 3, 1, 6 },
+                    { 2, 1, 5 },
+                    { 13, 2, 16 },
+                    { 6, 1, 9 },
+                    { 14, 2, 17 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookmarks_QuestionId",
+                table: "Bookmarks",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookmarks_UserId",
+                table: "Bookmarks",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassRooms_TeacherId",
@@ -357,9 +410,24 @@ namespace AlgoApp.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DailyPoints_UserId",
+                table: "DailyPoints",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DailyPractices_UserId",
+                table: "DailyPractices",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FillingAnswers_QuestionId",
                 table: "FillingAnswers",
                 column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_UserId",
+                table: "Messages",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_ChapterId",
@@ -400,7 +468,19 @@ namespace AlgoApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Bookmarks");
+
+            migrationBuilder.DropTable(
+                name: "DailyPoints");
+
+            migrationBuilder.DropTable(
+                name: "DailyPractices");
+
+            migrationBuilder.DropTable(
                 name: "FillingAnswers");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "ResultTests");

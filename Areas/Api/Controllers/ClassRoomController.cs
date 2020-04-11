@@ -28,13 +28,13 @@ namespace AlgoApp.Areas.Api.Controllers
         public async Task<CommonListResultModel<ClassRoomModel>> MyClassRooms()
         {
             var uid = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            if (User.Claims.First(c => c.Type == ClaimTypes.Role).Value == UserRole.Student.ToString())
+            if (User.Claims.GetClaim(ClaimTypes.Role) == UserRole.Student.ToString())
             {
                 return new CommonListResultModel<ClassRoomModel>
                 {
                     Items = await _dbContext.StudentsToClasses.Where(sc => sc.StudentId == uid)
-                                                                   .Select(sc => new ClassRoomModel { Id = sc.Id, Name = sc.ClassRoom.ClassName })
-                                                                   .ToListAsync()
+                                                              .Select(sc => new ClassRoomModel { Id = sc.Id, Name = sc.ClassRoom.ClassName, Teacher = new UserModel { Nickname = sc.ClassRoom.Teacher.Nickname } })
+                                                              .ToListAsync()
                 };
             }
             else
@@ -42,8 +42,8 @@ namespace AlgoApp.Areas.Api.Controllers
                 return new CommonListResultModel<ClassRoomModel>
                 {
                     Items = await _dbContext.ClassRooms.Where(c => c.TeacherId == uid)
-                                                            .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, StudentCount = c.Students.Count })
-                                                            .ToListAsync()
+                                                       .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, StudentCount = c.Students.Count })
+                                                       .ToListAsync()
                 };
             }
         }
@@ -76,29 +76,19 @@ namespace AlgoApp.Areas.Api.Controllers
             return new CommonResultModel { Code = Codes.None };
         }
 
-        [HttpPost]
-        public async Task<CommonListResultModel<ClassRoomModel>> SearchClassRomm(string searchText)
+        [HttpGet("{searchText}")]
+        public async Task<CommonListResultModel<ClassRoomModel>> SearchClassImNotIn(string searchText)
         {
-            if (int.TryParse(searchText, out var id))
+            var uid = int.Parse(User.Claims.GetClaim(ClaimTypes.NameIdentifier));
+            return new CommonListResultModel<ClassRoomModel>
             {
-                return new CommonListResultModel<ClassRoomModel>
-                {
-                    Items = await _dbContext.ClassRooms.Where(c => c.Id == id || c.ClassName == searchText || c.Teacher.NickName == searchText)
-                                                            .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, Teacher = new UserModel { NickName = c.Teacher.NickName } })
-                                                            .ToListAsync()
-                };
-            }
-            else
-            {
-                return new CommonListResultModel<ClassRoomModel>
-                {
-                    Items = await _dbContext.ClassRooms.Where(c => c.ClassName == searchText || c.Teacher.NickName == searchText)
-                                                            .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, Teacher = new UserModel { NickName = c.Teacher.NickName } })
-                                                            .ToListAsync()
-                };
-            }
+                Items = await _dbContext.ClassRooms.Where(c => (c.ClassName.Contains(searchText) || c.Teacher.Nickname.Contains(searchText)) && !_dbContext.StudentsToClasses.Any(sc => sc.StudentId == uid && sc.ClassRoomId == c.Id))
+                                                   .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, Teacher = new UserModel { Nickname = c.Teacher.Nickname } })
+                                                   .ToListAsync()
+            };
         }
 
+        [HttpGet("{id}")]
         public async Task<CommonResultModel> JoinClassRomm(int id)
         {
             var uid = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -158,7 +148,7 @@ namespace AlgoApp.Areas.Api.Controllers
         {
             if (await _dbContext.StudentsToClasses.Where(sc => sc.StudentId == model.StudentId && sc.ClassRoomId == model.ClassId).CountAsync() != 0)
             {
-                return new CommonResultModel { Code = Codes.UserAlreadyInClass };
+                return new CommonResultModel { Code = Codes.RecordExists };
             }
 
             await _dbContext.StudentsToClasses.AddAsync(new StudentToClass { ClassRoomId = model.ClassId, StudentId = model.StudentId });

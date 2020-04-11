@@ -3,14 +3,16 @@ using System;
 using AlgoApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlgoApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200404191546_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,67 +61,67 @@ namespace AlgoApp.Migrations
                         {
                             Id = 1,
                             Name = "绪论",
-                            Order = 1
+                            Order = 0
                         },
                         new
                         {
                             Id = 2,
                             Name = "线性表",
-                            Order = 2
+                            Order = 0
                         },
                         new
                         {
                             Id = 3,
                             Name = "栈和队列",
-                            Order = 3
+                            Order = 0
                         },
                         new
                         {
                             Id = 4,
                             Name = "串",
-                            Order = 4
+                            Order = 0
                         },
                         new
                         {
                             Id = 5,
                             Name = "数组和广义表",
-                            Order = 5
+                            Order = 0
                         },
                         new
                         {
                             Id = 6,
                             Name = "树和二叉树",
-                            Order = 6
+                            Order = 0
                         },
                         new
                         {
                             Id = 7,
                             Name = "图",
-                            Order = 7
+                            Order = 0
                         },
                         new
                         {
                             Id = 8,
                             Name = "动态存储管理",
-                            Order = 8
+                            Order = 0
                         },
                         new
                         {
                             Id = 9,
                             Name = "查找",
-                            Order = 9
+                            Order = 0
                         },
                         new
                         {
                             Id = 10,
                             Name = "内部排序",
-                            Order = 10
+                            Order = 0
                         },
                         new
                         {
                             Id = 11,
                             Name = "外部排序",
-                            Order = 11
+                            Order = 0
                         });
                 });
 
@@ -594,7 +596,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 2,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 664, DateTimeKind.Local).AddTicks(8377),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 813, DateTimeKind.Local).AddTicks(4023),
                             Gender = 1,
                             NickName = "赵老师",
                             Password = "123",
@@ -605,7 +607,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 3,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6742),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3304),
                             Gender = 2,
                             NickName = "钱老师",
                             Password = "123",
@@ -616,7 +618,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 4,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6770),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3332),
                             Gender = 1,
                             NickName = "孙同学",
                             Password = "123",
@@ -627,7 +629,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 5,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6774),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3336),
                             Gender = 2,
                             NickName = "李同学",
                             Password = "123",
@@ -638,7 +640,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 6,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6776),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3339),
                             Gender = 2,
                             NickName = "周同学",
                             Password = "123",
@@ -649,7 +651,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 7,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6779),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3341),
                             Gender = 2,
                             NickName = "吴同学",
                             Password = "123",
@@ -660,7 +662,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 8,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6782),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3344),
                             Gender = 2,
                             NickName = "郑同学",
                             Password = "123",
@@ -671,7 +673,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 9,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6784),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3347),
                             Gender = 2,
                             NickName = "王同学",
                             Password = "123",
@@ -682,7 +684,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 10,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6786),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3350),
                             Gender = 2,
                             NickName = "冯同学",
                             Password = "123",
@@ -693,7 +695,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 11,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6789),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3353),
                             Gender = 2,
                             NickName = "陈同学",
                             Password = "123",
@@ -704,7 +706,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 12,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6791),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3355),
                             Gender = 2,
                             NickName = "褚同学",
                             Password = "123",
@@ -715,7 +717,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 13,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6794),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3357),
                             Gender = 2,
                             NickName = "卫同学",
                             Password = "123",
@@ -726,7 +728,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 14,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6796),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3360),
                             Gender = 2,
                             NickName = "蒋同学",
                             Password = "123",
@@ -737,7 +739,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 15,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6798),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3362),
                             Gender = 2,
                             NickName = "沈同学",
                             Password = "123",
@@ -748,7 +750,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 16,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6801),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3364),
                             Gender = 2,
                             NickName = "韩同学",
                             Password = "123",
@@ -759,7 +761,7 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 17,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6803),
+                            BirthDay = new DateTime(2000, 4, 5, 3, 15, 45, 814, DateTimeKind.Local).AddTicks(3367),
                             Gender = 2,
                             NickName = "杨同学",
                             Password = "123",

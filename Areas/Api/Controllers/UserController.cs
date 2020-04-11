@@ -72,7 +72,7 @@ namespace AlgoApp.Areas.Api.Controllers
                     return new LoginResultModel { Code = Codes.RegistrationFailed, Description = "User already exists." };
                 }
 
-                user = new User { Username = model.Username.ToLower(), Password = model.Password, NickName = model.Username, Role = UserRole.Student };
+                user = new User { Username = model.Username.ToLower(), Password = model.Password, Nickname = model.Username, Role = UserRole.Student };
 
                 await AddUser(user);
 
@@ -96,7 +96,7 @@ namespace AlgoApp.Areas.Api.Controllers
             double answerCount = await _dbContext.UserAnswers.Where(a => a.UserId == id).CountAsync();
             double correctCount = await _dbContext.UserAnswers.Where(a => a.UserId == id && a.Correct == true).CountAsync();
             var ratio = answerCount == 0 ? 0 : correctCount / answerCount;
-            var doneCount = await _dbContext.UserAnswers.Where(a => a.UserId == id).GroupBy(a => a.QuestionId).CountAsync();
+            var doneCount = await _dbContext.UserAnswers.Where(a => a.UserId == id).CountAsync();
             var result = new UserModel { Code = Codes.None, CorrectRatio = ratio, DoneQuestionCount = doneCount };
             return ObjectMapper.Map(user, result);
         }
@@ -105,12 +105,13 @@ namespace AlgoApp.Areas.Api.Controllers
         public async Task<CommonListResultModel<UserModel>> SearchStudentsNotInClass(int id, string name)
         {
             var students = await _dbContext.Users.Where(u => u.Role == UserRole.Student &&
-                                                        u.NickName.Contains(name) &&
-                                                        _dbContext.StudentsToClasses.Where(c => c.ClassRoomId == id && c.StudentId == u.Id).Count() == 0).ToListAsync();
+                                                        u.Nickname.Contains(name) &&
+                                                        _dbContext.StudentsToClasses.Where(c => c.ClassRoomId == id && c.StudentId == u.Id).Count() == 0)
+                                                 .ToListAsync();
             var result = new CommonListResultModel<UserModel> { Items = new List<UserModel>() };
             foreach (var s in students)
             {
-                result.Items.Add(new UserModel { Id = s.Id, NickName = s.NickName });
+                result.Items.Add(new UserModel { Id = s.Id, Nickname = s.Nickname });
             }
 
             return result;

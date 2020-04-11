@@ -1,4 +1,6 @@
 using AlgoApp.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +27,15 @@ namespace AlgoApp
         {
             var dbpath = Path.Combine(".", "app.db");
             services.AddDbContext<ApplicationDbContext>(option =>
-                option.UseSqlite($"Data Source={dbpath}")
+                //option.UseSqlite($"Data Source={dbpath}")
+                option.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
             );
 
             services.AddAuthentication()
-                .AddCookie()
+                .AddCookie(options => {
+                    options.LoginPath = "/Index";
+                    options.AccessDeniedPath = "/Index";
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
