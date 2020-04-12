@@ -116,14 +116,13 @@ namespace AlgoApp.Areas.Api.Controllers
             return new AnswerResultModel { Code = Codes.Unknown, Description = "Unknow Error." };
         }
 
-        [HttpGet("histories/{uid}")]
-        public async Task<CommonListResultModel<HistoryItemModel>> GetAnswerHistoriesAsync(int uid)
+        [HttpGet("{uid}/historyQuestions/{cid}")]
+        public async Task<CommonListResultModel<HistoryItemModel>> GetAnswerHistoryQuestionsAsync(int uid, int cid)
         {
-            var answers = await _dbContext.UserAnswers
-            .Include(a => a.Question)
-            .Where(a => a.UserId == uid)
-            .OrderByDescending(a => a.TimeStamp)
-            .ToListAsync();
+            var answers = await _dbContext.UserAnswers.Include(a => a.Question)
+                                                      .Where(a => a.UserId == uid && a.Question.ChapterId == cid)
+                                                      .OrderByDescending(a => a.TimeStamp)
+                                                      .ToListAsync();
 
             var histories = new List<HistoryItemModel>();
             foreach (var answer in answers)
@@ -135,6 +134,20 @@ namespace AlgoApp.Areas.Api.Controllers
             }
 
             return new CommonListResultModel<HistoryItemModel> { Items = histories };
+        }
+
+        [HttpGet("{uid}/historyChapters")]
+        public async Task<CommonListResultModel<Chapter>> GetAnswerHistoryChaptersAsync(int uid)
+        {
+            var questionIds = _dbContext.UserAnswers.Where(a => a.UserId == uid)
+                                                    .GroupBy(a => a.QuestionId)
+                                                    .Select(a => a.Key);
+            var chapters = await _dbContext.Questions.Where(q => questionIds.Contains(q.Id))
+                                                     .Select(q => q.Chapter)
+                                                     .Distinct()
+                                                     .ToListAsync();
+
+            return new CommonListResultModel<Chapter> { Code = Codes.None, Items = chapters };
         }
     }
 }

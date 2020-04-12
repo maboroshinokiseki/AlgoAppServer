@@ -170,16 +170,38 @@ namespace AlgoApp.Areas.Api.Controllers
             return null;
         }
 
+        [HttpGet("EasyToGetWrongChapterssByClass/{classId}")]
+        public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> EasyToGetWrongChapterssByClass(int classId)
+        {
+            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassRoomId == classId).Select(sc => sc.StudentId);
+            var questionIds = _dbContext.UserAnswers.Where(a => studentIds.Contains(a.UserId) && a.Correct == false)
+                                                    .Select(a => a.QuestionId)
+                                                    .Distinct();
+            var chapterIds = await _dbContext.Questions.Where(q => questionIds.Contains(q.Id))
+                                                       .Select(q => q.Chapter)
+                                                       .Distinct()
+                                                       .ToListAsync();
+            var result = new CommonListResultModel<EasyToGetWrongQuestionModel> { Items = new List<EasyToGetWrongQuestionModel>() };
+            foreach (var item in chapterIds)
+            {
+                double allAnswerCount = await _dbContext.UserAnswers.Where(a => questionIds.Contains(a.QuestionId) && a.Question.ChapterId == item.Id).CountAsync();
+                double incorrectAnswerCount = await _dbContext.UserAnswers.Where(a => questionIds.Contains(a.QuestionId) && a.Question.ChapterId == item.Id && a.Correct == false).CountAsync();
+                result.Items.Add(new EasyToGetWrongQuestionModel { ChapterId = item.Id, Content = item.Name, ErrorRatio = incorrectAnswerCount / allAnswerCount });
+            }
+
+            return result;
+        }
+
         [HttpGet("EasyToGetWrongQuestionsByClass/{classId}")]
         public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionsByClassAsync(int classId)
         {
             var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassRoomId == classId).Select(sc => sc.StudentId);
-            var answers = _dbContext.UserAnswers.Where(a => studentIds.Contains(a.UserId) && a.Correct == false).AsEnumerable().GroupBy(a => a.QuestionId);
+            var answers = await _dbContext.UserAnswers.Where(a => studentIds.Contains(a.UserId)).GroupBy(a => a.QuestionId).ToListAsync();
             var result = new CommonListResultModel<EasyToGetWrongQuestionModel> { Items = new List<EasyToGetWrongQuestionModel>() };
             foreach (var item in answers)
             {
                 var question = await _dbContext.Questions.FindAsync(item.Key);
-                result.Items.Add(new EasyToGetWrongQuestionModel { QuestionId = item.Key, Content = question.Content, ErrorCount = item.Count() });
+                result.Items.Add(new EasyToGetWrongQuestionModel { QuestionId = item.Key, Content = question.Content, ErrorRatio = (double)item.Count(a => a.Correct == false) / (double)item.Count() });
             }
 
             return result;
