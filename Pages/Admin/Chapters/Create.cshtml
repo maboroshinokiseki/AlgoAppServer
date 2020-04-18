@@ -24,3 +24,7 @@
     <a asp-page="./Index" class="btn btn-primary">返回</a>
     <input type="submit" class="btn btn-primary" value="保存">
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

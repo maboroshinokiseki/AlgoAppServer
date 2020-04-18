@@ -41,16 +41,11 @@ $(document).ready(
             resetOptionIndexes();
         });
 
-        //$("button.delete-option-button").click(function () {
-        //    $(this).parents("tr").remove();
-        //    resetOptionIndexes();
-        //});
-
         $("button.add-option-button").click(function () {
             $(this).parents("tr").before(`<tr>
                             <td class="align-middle">
-                                <input value="1" name="selectionOptions[0].Id" class="form-control" type="hidden" />
-                                <input value="1" name="selectionOptions[0].QuestionId" class="form-control" type="hidden" />
+                                <input value="0" name="selectionOptions[0].Id" class="form-control" type="hidden" />
+                                <input value="0" name="selectionOptions[0].QuestionId" class="form-control" type="hidden" />
                                 <input name="selectionOptions[0].Content" class="form-control" placeholder="请输入内容">
                             </td>
                             <td class="align-middle">

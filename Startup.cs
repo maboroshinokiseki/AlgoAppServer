@@ -56,6 +56,7 @@ namespace AlgoApp
                     {
                         o.Conventions.AddPageRoute("/Admin/Questions/Index", "/Admin/Chapters/{chapterid}/Questions");
                         o.Conventions.AddPageRoute("/Admin/Questions/Edit", "/Admin/Chapters/{chapterid}/Questions/{id}");
+                        o.Conventions.AddPageRoute("/Admin/Questions/Create", "/Admin/Chapters/{chapterid}/Questions/Create");
                     });
 
             services.AddMvc()

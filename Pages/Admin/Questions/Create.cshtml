@@ -1,12 +1,11 @@
 ﻿@page
-@model AlgoApp.Pages.Admin.Questions.EditModel
+@model AlgoApp.Pages.Admin.Questions.CreateModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
 <form method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input asp-for="QuestionModel.Id" class="form-control" type="hidden" />
     <div class="form-group row">
         <label asp-for="QuestionModel.ChapterId" class="col-form-label col-sm-2"></label>
         <div class="col-sm-10">
@@ -40,7 +39,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < (Model.QuestionModel.SelectionAnswers?.Count ?? 0); i++)
+                    @for (int i = 0; i < (Model.QuestionModel?.SelectionAnswers?.Count ?? 0); i++)
                     {
                         <tr>
                             <td class="align-middle">

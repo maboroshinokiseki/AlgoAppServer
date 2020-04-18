@@ -20,10 +20,12 @@ namespace AlgoApp.Pages.Admin.Questions
 
         public string CurrentFilter { get; set; }
         public PaginatedList<Question> Questions { get; set; }
+        public int ChapterId { get; set; }
 
         public async Task OnGetAsync(int chapterid, string searchString, int pageIndex = 1)
         {
             CurrentFilter = searchString?.Trim();
+            ChapterId = chapterid;
             var questionIQ = _context.Questions.Where(q => q.ChapterId == chapterid);
             if (CurrentFilter != null)
             {
