@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace AlgoApp
@@ -69,7 +70,7 @@ namespace AlgoApp
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return Redirect("/Admin/");
+                return Redirect("/Admin/Users");
             }
             // Something failed. Redisplay the form.
             return Page();
@@ -77,6 +78,7 @@ namespace AlgoApp
 
         private User AuthenticateUser(string username, string password)
         {
+            
             return _dbContext.Users
                 .FirstOrDefault(u => u.Username == username && u.Password == password && u.Role == UserRole.Admin);
         }

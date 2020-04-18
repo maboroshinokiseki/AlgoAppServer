@@ -1,0 +1,84 @@
+﻿@page
+@model AlgoApp.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form asp-page="." method="get" class="input-group w-25 float-left">
+    <input type="search" class="form-control" placeholder="昵称" name="SearchString" value="@Model.CurrentFilter">
+    <div class="input-group-append">
+        <input type="submit" value="搜索" class="btn btn-primary">
+    </div>
+</form>
+
+<a class="btn btn-primary float-right" asp-page="./Create">新增</a>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">昵称</th>
+            <th scope="col">用户类型</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => user.Id)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => user.Nickname)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => user.Role)
+                </td>
+                <td class="align-middle"><a class="btn btn-primary" asp-page="Edit" asp-route-id="@user.Id">编辑</a></td>
+                <td class="align-middle"><button type="submit" class="btn btn-danger delete-button" data-id="@user.Id">删除</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @{
+            int start = Math.Max(Model.Users.PageIndex - 3, 1);
+            int end = Math.Min(Model.Users.PageIndex + 3, Model.Users.TotalPages);
+            bool showToFirstPage = start != 1;
+            bool showToLastPage = end != Model.Users.TotalPages;
+            var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
+        }
+        @if (showToFirstPage)
+        {
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1" asp-route-searchString="@Model.CurrentFilter">第一页</a></li>
+        }
+        <li class="page-item @prevDisabled">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Users.PageIndex - 1)" asp-route-searchString="@Model.CurrentFilter">上一页</a>
+        </li>
+        @if (showToFirstPage)
+        {
+            <li>...</li>
+        }
+        @for (int i = start; i <= end; i++)
+        {
+            var disabled = @Model.Users.PageIndex == i ? "disabled" : "";
+            <li class="page-item @disabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i" asp-route-searchString="@Model.CurrentFilter">@i</a></li>
+        }
+        @if (showToLastPage)
+        {
+            <li>...</li>
+        }
+        <li class="page-item @nextDisabled">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Users.PageIndex + 1)" asp-route-searchString="@Model.CurrentFilter">下一页</a>
+        </li>
+        @if (showToFirstPage)
+        {
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Users.TotalPages)" asp-route-searchString="@Model.CurrentFilter">最后页</a></li>
+        }
+    </ul>
+</nav>

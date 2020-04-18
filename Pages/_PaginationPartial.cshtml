@@ -1,0 +1,45 @@
+﻿@page
+@model AlgoApp.Pages._PaginationPartialModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@*<nav>
+    <ul class="pagination justify-content-center">
+        @{
+            int start = Math.Max(Model.Users.PageIndex - 3, 1);
+            int end = Math.Min(Model.Users.PageIndex + 3, Model.Users.TotalPages);
+            bool showToFirstPage = start != 1;
+            bool showToLastPage = end != Model.Users.TotalPages;
+            var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
+        }
+        @if (showToFirstPage)
+        {
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1" asp-route-searchString="@Model.CurrentFilter">第一页</a></li>
+        }
+        <li class="page-item @prevDisabled">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Users.PageIndex - 1)" asp-route-searchString="@Model.CurrentFilter">上一页</a>
+        </li>
+        @if (showToFirstPage)
+        {
+            <li>...</li>
+        }
+        @for (int i = start; i <= end; i++)
+        {
+            var disabled = @Model.Users.PageIndex == i ? "disabled" : "";
+            <li class="page-item @disabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i" asp-route-searchString="@Model.CurrentFilter">@i</a></li>
+        }
+        @if (showToLastPage)
+        {
+            <li>...</li>
+        }
+        <li class="page-item @nextDisabled">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Users.PageIndex + 1)" asp-route-searchString="@Model.CurrentFilter">下一页</a>
+        </li>
+        @if (showToFirstPage)
+        {
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Users.TotalPages)" asp-route-searchString="@Model.CurrentFilter">最后页</a></li>
+        }
+    </ul>
+</nav>*@

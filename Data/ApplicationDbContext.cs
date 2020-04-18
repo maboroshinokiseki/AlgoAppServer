@@ -34,23 +34,23 @@ namespace AlgoApp.Data
                 .HasConversion(a => JsonSerializer.Serialize(a, null), a => JsonSerializer.Deserialize<List<string>>(a, null))
                 .Metadata.SetValueComparer(valueComparer);
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Username = "root", Password = "root", Role = UserRole.Admin, Gender = Gender.Secrecy },
+                new User { Id = 1, Username = "root", Nickname="Root",Password = "root", Role = UserRole.Admin, Gender = Gender.Secrecy },
                 new User { Id = 2, Username = "teacherzhao", Password = "123", Nickname = "赵老师", Role = UserRole.Teacher, Gender = Gender.Male, BirthDay = DateTime.Now.AddYears(-20) },
                 new User { Id = 3, Username = "teacherqian", Password = "123", Nickname = "钱老师", Role = UserRole.Teacher, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 4, Username = "studentsun", Password = "123", Nickname = "孙同学", Role = UserRole.Student, Gender = Gender.Male, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 5, Username = "studentli", Password = "123", Nickname = "李同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 6, Username = "student06", Password = "123", Nickname = "周同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 7, Username = "student07", Password = "123", Nickname = "吴同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 8, Username = "student08", Password = "123", Nickname = "郑同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 9, Username = "student09", Password = "123", Nickname = "王同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 10, Username = "student10", Password = "123", Nickname = "冯同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 11, Username = "student11", Password = "123", Nickname = "陈同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 12, Username = "student12", Password = "123", Nickname = "褚同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 13, Username = "student13", Password = "123", Nickname = "卫同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 14, Username = "student10", Password = "123", Nickname = "蒋同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 15, Username = "student11", Password = "123", Nickname = "沈同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 16, Username = "student12", Password = "123", Nickname = "韩同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) },
-                new User { Id = 17, Username = "student13", Password = "123", Nickname = "杨同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20) }
+                new User { Id = 4, Username = "studentsun", Password = "123", Nickname = "孙同学", Role = UserRole.Student, Gender = Gender.Male, BirthDay = DateTime.Now.AddYears(-20), Points = 2 },
+                new User { Id = 5, Username = "studentli", Password = "123", Nickname = "李同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 4 },
+                new User { Id = 6, Username = "student06", Password = "123", Nickname = "周同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 8 },
+                new User { Id = 7, Username = "student07", Password = "123", Nickname = "吴同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 16 },
+                new User { Id = 8, Username = "student08", Password = "123", Nickname = "郑同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 32 },
+                new User { Id = 9, Username = "student09", Password = "123", Nickname = "王同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 64 },
+                new User { Id = 10, Username = "student10", Password = "123", Nickname = "冯同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 128 },
+                new User { Id = 11, Username = "student11", Password = "123", Nickname = "陈同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 256 },
+                new User { Id = 12, Username = "student12", Password = "123", Nickname = "褚同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 512 },
+                new User { Id = 13, Username = "student13", Password = "123", Nickname = "卫同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 1024 },
+                new User { Id = 14, Username = "student10", Password = "123", Nickname = "蒋同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 0 },
+                new User { Id = 15, Username = "student11", Password = "123", Nickname = "沈同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 0 },
+                new User { Id = 16, Username = "student12", Password = "123", Nickname = "韩同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 0 },
+                new User { Id = 17, Username = "student13", Password = "123", Nickname = "杨同学", Role = UserRole.Student, Gender = Gender.Female, BirthDay = DateTime.Now.AddYears(-20), Points = 0 }
                 );
             modelBuilder.Entity<Chapter>().HasData(
                 new Chapter { Id = 1, Name = "绪论", Order = 1 },
@@ -126,6 +126,19 @@ namespace AlgoApp.Data
                 new StudentToClass { Id = 12, ClassRoomId = 2, StudentId = 15 },
                 new StudentToClass { Id = 13, ClassRoomId = 2, StudentId = 16 },
                 new StudentToClass { Id = 14, ClassRoomId = 2, StudentId = 17 }
+                );
+
+            modelBuilder.Entity<DailyPoints>().HasData(
+                new DailyPoints { Id = 1, Date = DateTime.Today.AddDays(-1), UserId = 4, Points = 1 },
+                new DailyPoints { Id = 2, Date = DateTime.Today.AddDays(-1), UserId = 5, Points = 2 },
+                new DailyPoints { Id = 3, Date = DateTime.Today.AddDays(-1), UserId = 6, Points = 4 },
+                new DailyPoints { Id = 4, Date = DateTime.Today.AddDays(-1), UserId = 7, Points = 8 },
+                new DailyPoints { Id = 5, Date = DateTime.Today.AddDays(-1), UserId = 8, Points = 16 },
+                new DailyPoints { Id = 6, Date = DateTime.Today.AddDays(-1), UserId = 9, Points = 32 },
+                new DailyPoints { Id = 7, Date = DateTime.Today.AddDays(-1), UserId = 10, Points = 64 },
+                new DailyPoints { Id = 8, Date = DateTime.Today.AddDays(-1), UserId = 11, Points = 128 },
+                new DailyPoints { Id = 9, Date = DateTime.Today.AddDays(-1), UserId = 12, Points = 256 },
+                new DailyPoints { Id = 10, Date = DateTime.Today.AddDays(-1), UserId = 13, Points = 512 }
                 );
         }
     }

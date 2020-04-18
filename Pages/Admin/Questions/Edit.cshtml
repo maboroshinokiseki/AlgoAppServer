@@ -1,0 +1,87 @@
+﻿@page
+@model AlgoApp.Pages.Admin.Questions.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="QuestionModel.Id" class="form-control" type="hidden" />
+    <div class="form-group row">
+        <label asp-for="QuestionModel.ChapterId" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="QuestionModel.ChapterId" class="form-control" />
+            <span asp-validation-for="QuestionModel.ChapterId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="QuestionModel.Content" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="QuestionModel.Content" class="form-control"></textarea>
+            <span asp-validation-for="QuestionModel.Content" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="QuestionModel.Type" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <select asp-for="QuestionModel.Type" class="form-control" asp-items="Html.GetEnumSelectList<AlgoApp.Data.QuestionType>()"></select>
+            <span asp-validation-for="QuestionModel.Type" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-sm-2">备选答案</label>
+        <div class="col-sm-10">
+            <table class="col-sm-10 table table-borderless" id="SelectionOptions">
+                <thead>
+                    <tr>
+                        <th scope="col">答案描述</th>
+                        <th scope="col">正确答案</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < (Model.QuestionModel.SelectionAnswers?.Count ?? 0); i++)
+                    {
+                        <tr>
+                            <td class="align-middle">
+                                <input value="@Model.QuestionModel.SelectionAnswers[i].Id" name="selectionOptions[@i].Id" class="form-control" type="hidden" />
+                                <input value="@Model.QuestionModel.SelectionAnswers[i].QuestionId" name="selectionOptions[@i].QuestionId" class="form-control" type="hidden" />
+                                <input value="@Model.QuestionModel.SelectionAnswers[i].Content" name="selectionOptions[@i].Content" class="form-control">
+                            </td>
+                            <td class="align-middle">
+                                <select name="selectionOptions[@i].Correct" class="form-control">
+                                    <option value="True" selected="@Model.QuestionModel.SelectionAnswers[i].Correct">是</option>
+                                    <option value="False" selected="@(!Model.QuestionModel.SelectionAnswers[i].Correct)">否</option>
+                                </select>
+                            </td>
+                            <td class="align-middle"><button type="button" class="btn btn-danger delete-option-button">删除</button></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="align-middle"></td>
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle"><button type="button" class="btn btn-primary add-option-button">新增</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <span asp-validation-for="QuestionModel.SelectionAnswers" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="QuestionModel.Analysis" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <textarea asp-for="QuestionModel.Analysis" class="form-control"></textarea>
+            <span asp-validation-for="QuestionModel.Analysis" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="QuestionModel.Difficulty" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="QuestionModel.Difficulty" class="form-control" />
+            <span asp-validation-for="QuestionModel.Difficulty" class="text-danger"></span>
+        </div>
+    </div>
+    <a href="." class="btn btn-primary">返回</a>
+    <input type="submit" class="btn btn-primary" value="保存">
+</form>

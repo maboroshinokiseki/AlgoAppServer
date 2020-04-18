@@ -46,7 +46,7 @@ namespace AlgoApp.Areas.Api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await GetUser(model.Username, model.Password);
+                var user = await GetUser(model.Username, Utilities.HashPassword(model.Password));
 
                 if (user == null)
                 {
@@ -72,7 +72,7 @@ namespace AlgoApp.Areas.Api.Controllers
                     return new LoginResultModel { Code = Codes.RegistrationFailed, Description = "User already exists." };
                 }
 
-                user = new User { Username = model.Username.ToLower(), Password = model.Password, Nickname = model.Username, Role = UserRole.Student };
+                user = new User { Username = model.Username.ToLower(), Password = Utilities.HashPassword(model.Password), Nickname = model.Username, Role = UserRole.Student };
 
                 await AddUser(user);
 
@@ -98,7 +98,22 @@ namespace AlgoApp.Areas.Api.Controllers
             var ratio = answerCount == 0 ? 0 : correctCount / answerCount;
             var doneCount = await _dbContext.UserAnswers.Where(a => a.UserId == id).CountAsync();
             var result = new UserModel { Code = Codes.None, CorrectRatio = ratio, DoneQuestionCount = doneCount };
+            user.Password = "";
             return ObjectMapper.Map(user, result);
+        }
+
+        public async Task<CommonResultModel> UpdateUserInfo([FromBody] UserModel model)
+        {
+            var user = await _dbContext.Users.FindAsync(model.Id);
+            user.BirthDay = model.BirthDay;
+            user.Gender = model.Gender;
+            user.Nickname = model.Nickname;
+            if (model.Password != "")
+            {
+                user.Password = Utilities.HashPassword(model.Password);
+            }
+            await _dbContext.SaveChangesAsync();
+            return new CommonResultModel { Code = Codes.None };
         }
 
         [HttpGet("{id}/{name}")]
@@ -115,6 +130,27 @@ namespace AlgoApp.Areas.Api.Controllers
             }
 
             return result;
+        }
+
+        public async Task<CommonListResultModel<UserModel>> YesterdayTop10()
+        {
+            var items = await _dbContext.DailyPoints.Where(d => d.Date == DateTime.Today.AddDays(-1))
+                                                    .OrderByDescending(d => d.Points)
+                                                    .Take(10)
+                                                    .Select(d => new UserModel { Nickname = d.User.Nickname, Points = d.Points })
+                                                    .ToListAsync();
+            return new CommonListResultModel<UserModel> { Code = Codes.None, Items = items };
+        }
+
+        public async Task<CommonListResultModel<UserModel>> AllTimeTop10()
+        {
+            var items = await _dbContext.Users.Where(u => u.Points != 0)
+                                              .OrderByDescending(u => u.Points)
+                                              .Take(10)
+                                              .Select(u => new UserModel { Nickname = u.Nickname, Points = u.Points })
+                                              .ToListAsync();
+
+            return new CommonListResultModel<UserModel> { Code = Codes.None, Items = items };
         }
 
         private async Task<User> GetUser(string username, string password = null)

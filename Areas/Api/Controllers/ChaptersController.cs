@@ -29,7 +29,12 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpGet]
         public async Task<CommonListResultModel<Chapter>> GetChaptersAsync()
         {
-            return new CommonListResultModel<Chapter> { Code = Codes.None, Items = await _dbContext.Chapters.OrderBy(c => c.Order).ToListAsync() };
+            var chapters = await _dbContext.Chapters.OrderBy(c => c.Order).ToListAsync();
+            foreach (var item in chapters)
+            {
+                item.Name = $"第{item.Order}章 {item.Name}";
+            }
+            return new CommonListResultModel<Chapter> { Code = Codes.None, Items = chapters };
         }
 
         [HttpGet("{cid}/questions")]

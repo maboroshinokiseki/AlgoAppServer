@@ -27,8 +27,8 @@ namespace AlgoApp
         {
             var dbpath = Path.Combine(".", "app.db");
             services.AddDbContext<ApplicationDbContext>(option =>
-                //option.UseSqlite($"Data Source={dbpath}")
-                option.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
+                option.UseSqlite($"Data Source={dbpath}")
+                //option.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
             );
 
             services.AddAuthentication()
@@ -51,7 +51,12 @@ namespace AlgoApp
                     };
                 });
 
-            services.AddRazorPages();
+            services.AddRazorPages()
+                    .AddRazorPagesOptions(o =>
+                    {
+                        o.Conventions.AddPageRoute("/Admin/Questions/Index", "/Admin/Chapters/{chapterid}/Questions");
+                        o.Conventions.AddPageRoute("/Admin/Questions/Edit", "/Admin/Chapters/{chapterid}/Questions/{id}");
+                    });
 
             services.AddMvc()
                     .AddJsonOptions(options => options.JsonSerializerOptions.IgnoreNullValues = true);

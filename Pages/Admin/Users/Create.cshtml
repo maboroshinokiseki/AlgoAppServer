@@ -1,0 +1,54 @@
+﻿@page
+@model AlgoApp.Pages.Admin.Users.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group row">
+        <label asp-for="UserModel.Username" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="UserModel.Username" class="form-control" />
+            <span asp-validation-for="UserModel.Username" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UserModel.Password" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="UserModel.Password" class="form-control" />
+            <span asp-validation-for="UserModel.Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UserModel.Nickname" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="UserModel.Nickname" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UserModel.Role" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <select asp-for="UserModel.Role" class="form-control" asp-items="Html.GetEnumSelectList<AlgoApp.Data.UserRole>()"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UserModel.Gender" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <select asp-for="UserModel.Gender" class="form-control" asp-items="Html.GetEnumSelectList<AlgoApp.Data.Gender>()"></select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UserModel.BirthDay" class="col-form-label col-sm-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="UserModel.BirthDay" class="form-control" />
+        </div>
+    </div>
+    <a asp-page="./Index" class="btn btn-primary">返回</a>
+    <input type="submit" class="btn btn-primary" value="保存">
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

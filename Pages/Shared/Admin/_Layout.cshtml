@@ -18,15 +18,22 @@
                 </button>
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        <a class="nav-link text-dark" href="~/Admin/Users">用户管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        <a class="nav-link text-dark" href="~/Admin/Chapters">章节题目管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="~/Admin/Classes">班级管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="~/Admin/Messages">留言管理</a>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
+    <form asp-page="." method="post" id="hidden-form-for-antiforgery-token" class="d-none"></form>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

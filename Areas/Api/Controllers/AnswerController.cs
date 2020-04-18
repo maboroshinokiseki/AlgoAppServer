@@ -146,6 +146,10 @@ namespace AlgoApp.Areas.Api.Controllers
                                                      .Select(q => q.Chapter)
                                                      .Distinct()
                                                      .ToListAsync();
+            foreach (var item in chapters)
+            {
+                item.Name = $"第{item.Order}章 {item.Name}";
+            }
 
             return new CommonListResultModel<Chapter> { Code = Codes.None, Items = chapters };
         }

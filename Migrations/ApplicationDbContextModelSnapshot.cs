@@ -14,20 +14,19 @@ namespace AlgoApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("ProductVersion", "3.1.3");
 
             modelBuilder.Entity("AlgoApp.Data.Bookmark", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -42,13 +41,13 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Order")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -127,13 +126,13 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClassName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TeacherId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -166,38 +165,110 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Points")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("DailyPoints");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 1,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 2,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 4,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 8,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 16,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 32,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 64,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 128,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 256,
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Points = 512,
+                            UserId = 13
+                        });
                 });
 
             modelBuilder.Entity("AlgoApp.Data.DailyPractice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Count")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -210,16 +281,16 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Order")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -232,19 +303,19 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("MessageType")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Read")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -257,22 +328,22 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Analysis")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ChapterId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Difficulty")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Type")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -314,16 +385,16 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Input")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Output")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -336,16 +407,16 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Correct")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -444,13 +515,13 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ClassRoomId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -551,30 +622,30 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("BirthDay")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Gender")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("NickName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<string>("Nickname")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Points")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Role")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -594,9 +665,9 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 2,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 664, DateTimeKind.Local).AddTicks(8377),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(156),
                             Gender = 1,
-                            NickName = "赵老师",
+                            Nickname = "赵老师",
                             Password = "123",
                             Points = 0,
                             Role = 1,
@@ -605,9 +676,9 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 3,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6742),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9112),
                             Gender = 2,
-                            NickName = "钱老师",
+                            Nickname = "钱老师",
                             Password = "123",
                             Points = 0,
                             Role = 1,
@@ -616,119 +687,119 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 4,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6770),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9141),
                             Gender = 1,
-                            NickName = "孙同学",
+                            Nickname = "孙同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 2,
                             Role = 2,
                             Username = "studentsun"
                         },
                         new
                         {
                             Id = 5,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6774),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9625),
                             Gender = 2,
-                            NickName = "李同学",
+                            Nickname = "李同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 4,
                             Role = 2,
                             Username = "studentli"
                         },
                         new
                         {
                             Id = 6,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6776),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9653),
                             Gender = 2,
-                            NickName = "周同学",
+                            Nickname = "周同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 8,
                             Role = 2,
                             Username = "student06"
                         },
                         new
                         {
                             Id = 7,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6779),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9656),
                             Gender = 2,
-                            NickName = "吴同学",
+                            Nickname = "吴同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 16,
                             Role = 2,
                             Username = "student07"
                         },
                         new
                         {
                             Id = 8,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6782),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9659),
                             Gender = 2,
-                            NickName = "郑同学",
+                            Nickname = "郑同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 32,
                             Role = 2,
                             Username = "student08"
                         },
                         new
                         {
                             Id = 9,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6784),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9661),
                             Gender = 2,
-                            NickName = "王同学",
+                            Nickname = "王同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 64,
                             Role = 2,
                             Username = "student09"
                         },
                         new
                         {
                             Id = 10,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6786),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9664),
                             Gender = 2,
-                            NickName = "冯同学",
+                            Nickname = "冯同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 128,
                             Role = 2,
                             Username = "student10"
                         },
                         new
                         {
                             Id = 11,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6789),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9667),
                             Gender = 2,
-                            NickName = "陈同学",
+                            Nickname = "陈同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 256,
                             Role = 2,
                             Username = "student11"
                         },
                         new
                         {
                             Id = 12,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6791),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9670),
                             Gender = 2,
-                            NickName = "褚同学",
+                            Nickname = "褚同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 512,
                             Role = 2,
                             Username = "student12"
                         },
                         new
                         {
                             Id = 13,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6794),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9672),
                             Gender = 2,
-                            NickName = "卫同学",
+                            Nickname = "卫同学",
                             Password = "123",
-                            Points = 0,
+                            Points = 1024,
                             Role = 2,
                             Username = "student13"
                         },
                         new
                         {
                             Id = 14,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6796),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9675),
                             Gender = 2,
-                            NickName = "蒋同学",
+                            Nickname = "蒋同学",
                             Password = "123",
                             Points = 0,
                             Role = 2,
@@ -737,9 +808,9 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 15,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6798),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9677),
                             Gender = 2,
-                            NickName = "沈同学",
+                            Nickname = "沈同学",
                             Password = "123",
                             Points = 0,
                             Role = 2,
@@ -748,9 +819,9 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 16,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6801),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9680),
                             Gender = 2,
-                            NickName = "韩同学",
+                            Nickname = "韩同学",
                             Password = "123",
                             Points = 0,
                             Role = 2,
@@ -759,9 +830,9 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 17,
-                            BirthDay = new DateTime(2000, 4, 5, 9, 6, 30, 665, DateTimeKind.Local).AddTicks(6803),
+                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9682),
                             Gender = 2,
-                            NickName = "杨同学",
+                            Nickname = "杨同学",
                             Password = "123",
                             Points = 0,
                             Role = 2,
@@ -773,22 +844,22 @@ namespace AlgoApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Correct")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MyAnswers")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("QuestionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

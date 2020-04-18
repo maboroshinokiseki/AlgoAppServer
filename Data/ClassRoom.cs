@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace AlgoApp.Data
 {
@@ -9,8 +6,8 @@ namespace AlgoApp.Data
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }
-        public User Teacher { get; set; }
+        public User Teacher { get; }
         public string ClassName { get; set; }
-        public List<StudentToClass> Students { get; set; }
+        public List<StudentToClass> Students { get; }
     }
 }
