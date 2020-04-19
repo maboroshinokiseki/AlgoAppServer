@@ -43,12 +43,13 @@
                     {
                         <tr>
                             <td class="align-middle">
-                                <input value="@Model.QuestionModel.SelectionAnswers[i].Id" name="selectionOptions[@i].Id" class="form-control" type="hidden" />
-                                <input value="@Model.QuestionModel.SelectionAnswers[i].QuestionId" name="selectionOptions[@i].QuestionId" class="form-control" type="hidden" />
-                                <input value="@Model.QuestionModel.SelectionAnswers[i].Content" name="selectionOptions[@i].Content" class="form-control">
+                                <input asp-for="@Model.QuestionModel.SelectionAnswers[i].Id" class="form-control" type="hidden" />
+                                <input asp-for="@Model.QuestionModel.SelectionAnswers[i].QuestionId" class="form-control" type="hidden" />
+                                <input asp-for="@Model.QuestionModel.SelectionAnswers[i].Content" class="form-control" placeholder="请输入答案描述">
+                                <span asp-validation-for="@Model.QuestionModel.SelectionAnswers[i].Content" class="text-danger"></span>
                             </td>
                             <td class="align-middle">
-                                <select name="selectionOptions[@i].Correct" class="form-control">
+                                <select asp-for="@Model.QuestionModel.SelectionAnswers[i].Correct" class="form-control">
                                     <option value="True" selected="@Model.QuestionModel.SelectionAnswers[i].Correct">是</option>
                                     <option value="False" selected="@(!Model.QuestionModel.SelectionAnswers[i].Correct)">否</option>
                                 </select>

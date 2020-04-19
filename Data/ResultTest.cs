@@ -6,6 +6,6 @@
         public string Input { get; set; }
         public string Output { get; set; }
         public int QuestionId { get; set; }
-        public Question Question { get; }
+        public Question Question { get; set; }
     }
 }

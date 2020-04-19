@@ -15,11 +15,11 @@ namespace AlgoApp.Data
         public QuestionType Type { get; set; }
         [Display(Name = "所属章节Id")]
         public int ChapterId { get; set; }
-        public Chapter Chapter { get; }
-        public List<FillingAnswer> FillingAnswers { get; }
+        public Chapter Chapter { get; set; }
+        public List<FillingAnswer> FillingAnswers { get; set; }
         [Display(Name = "备选答案")]
-        public List<SelectionOption> SelectionAnswers { get; }
-        public List<ResultTest> ResultTests { get; }
+        public List<SelectionOption> SelectionAnswers { get; set; }
+        public List<ResultTest> ResultTests { get; set; }
         [Display(Name = "难度")]
         public int Difficulty { get; set; }
     }

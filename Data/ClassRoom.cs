@@ -6,8 +6,8 @@ namespace AlgoApp.Data
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }
-        public User Teacher { get; }
+        public User Teacher { get; set; }
         public string ClassName { get; set; }
-        public List<StudentToClass> Students { get; }
+        public List<StudentToClass> Students { get; set; }
     }
 }

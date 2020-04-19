@@ -40,14 +40,16 @@ namespace AlgoApp.Pages.Admin.Questions
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(List<SelectionOption> selectionOptions)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return await OnGetAsync(QuestionModel.Id);
             }
 
-            if (selectionOptions.Count == 0)
+            var selectionOptions = QuestionModel.SelectionAnswers;
+
+            if (selectionOptions?.Any() ?? false)
             {
                 ModelState.AddModelError(nameof(QuestionModel.SelectionAnswers) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个选项");
                 return await OnGetAsync(QuestionModel.Id);

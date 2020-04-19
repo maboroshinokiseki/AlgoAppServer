@@ -27,10 +27,10 @@ $(document).ready(
         function resetOptionIndexes() {
             let options = $("#SelectionOptions tbody tr");
             for (let i = 0; i < options.length; i++) {
-                let elements = $(options[i]).find("[name^='selectionOptions']");
+                let elements = $(options[i]).find("[name^='QuestionModel.SelectionAnswers']");
                 for (let e of elements) {
                     let name = $(e).attr("name");
-                    let newName = name.replace(/selectionOptions\[\d+\]\.(.*)/gi, (match, p1) => "selectionOptions[" + i.toString() + "]." + p1);
+                    let newName = name.replace(/QuestionModel\.SelectionAnswers\[\d+\]\.(.*)/gi, (match, p1) => `QuestionModel.SelectionAnswers[${i}].${p1}`);
                     $(e).attr("name", newName);
                 }
             }
@@ -42,20 +42,22 @@ $(document).ready(
         });
 
         $("button.add-option-button").click(function () {
-            $(this).parents("tr").before(`<tr>
-                            <td class="align-middle">
-                                <input value="0" name="selectionOptions[0].Id" class="form-control" type="hidden" />
-                                <input value="0" name="selectionOptions[0].QuestionId" class="form-control" type="hidden" />
-                                <input name="selectionOptions[0].Content" class="form-control" placeholder="请输入内容">
-                            </td>
-                            <td class="align-middle">
-                                <select name="selectionOptions[0].Correct" class="form-control">
-                                    <option value="True">是</option>
-                                    <option value="False" selected="selected">否</option>
-                                </select>
-                            </td>
-                            <td class="align-middle"><button class="btn btn-danger delete-option-button">删除</button></td>
-                        </tr>`)
+            $(this).parents("tr").before(`
+<tr>
+	<td class="align-middle">
+		<input class="form-control" type="hidden" data-val="true" name="QuestionModel.SelectionAnswers[0].Id" value="0">
+		<input class="form-control" type="hidden" data-val="true" name="QuestionModel.SelectionAnswers[0].QuestionId" value="0">
+		<input class="form-control" type="text" data-val="true" data-val-required="The Content field is required." name="QuestionModel.SelectionAnswers[0].Content" value="" placeholder="请输入答案描述">
+		<span class="text-danger field-validation-valid" data-valmsg-for="QuestionModel.SelectionAnswers[0].Content" data-valmsg-replace="true"></span>
+	</td>
+	<td class="align-middle">
+		<select class="form-control" data-val="true" data-val-required="The Correct field is required." name="QuestionModel.SelectionAnswers[0].Correct">
+			<option value="True">是</option>
+			<option value="False" selected="selected">否</option>
+		</select>
+	</td>
+	<td class="align-middle"><button type="button" class="btn btn-danger delete-option-button">删除</button></td>
+</tr>`)
             resetOptionIndexes();
         });
     }

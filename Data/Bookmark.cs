@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public User User { get; }
+        public User User { get; set; }
         public int QuestionId { get; set; }
-        public Question Question { get; }
+        public Question Question { get; set; }
     }
 }

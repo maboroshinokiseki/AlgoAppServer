@@ -28,14 +28,15 @@ namespace AlgoApp.Pages.Admin.Questions
         [BindProperty]
         public Question QuestionModel { get; set; }
 
-        public async Task<IActionResult> OnPostAsync(List<SelectionOption> selectionOptions)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            if (selectionOptions.Count == 0)
+            var selectionOptions = QuestionModel.SelectionAnswers;
+            if (selectionOptions?.Any() ?? false)
             {
                 ModelState.AddModelError(nameof(QuestionModel) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个选项");
                 return Page();

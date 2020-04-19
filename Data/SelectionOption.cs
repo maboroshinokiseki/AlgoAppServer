@@ -8,7 +8,7 @@ namespace AlgoApp.Data
         [Required]
         public string Content { get; set; }
         public int QuestionId { get; set; }
-        public Question Question { get; }
+        public Question Question { get; set; }
         public bool Correct { get; set; }
     }
 }
