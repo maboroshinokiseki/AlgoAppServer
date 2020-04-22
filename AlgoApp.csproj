@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Api\Controllers\Student\" />
     <Folder Include="Areas\Api\Data\" />
     <Folder Include="Areas\Api\Views\" />
     <Folder Include="Services\" />

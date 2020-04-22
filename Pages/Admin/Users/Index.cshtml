@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => user.Role)
                 </td>
                 <td class="align-middle"><a class="btn btn-primary" asp-page="Edit" asp-route-id="@user.Id">编辑</a></td>
-                <td class="align-middle"><button type="submit" class="btn btn-danger delete-button" data-id="@user.Id">删除</button></td>
+                <td class="align-middle"><button class="btn btn-danger delete-button" data-id="@user.Id">删除</button></td>
             </tr>
         }
     </tbody>

@@ -15,34 +15,34 @@ namespace AlgoApp.Areas.Api.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ClassRoomController : ControllerBase
+    public class ClassroomController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ClassRoomController(ApplicationDbContext dbContext)
+        public ClassroomController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         [HttpGet]
-        public async Task<CommonListResultModel<ClassRoomModel>> MyClassRooms()
+        public async Task<CommonListResultModel<ClassroomModel>> MyClassrooms()
         {
             var uid = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             if (User.Claims.GetClaim(ClaimTypes.Role) == UserRole.Student.ToString())
             {
-                return new CommonListResultModel<ClassRoomModel>
+                return new CommonListResultModel<ClassroomModel>
                 {
                     Items = await _dbContext.StudentsToClasses.Where(sc => sc.StudentId == uid)
-                                                              .Select(sc => new ClassRoomModel { Id = sc.Id, Name = sc.ClassRoom.ClassName, Teacher = new UserModel { Nickname = sc.ClassRoom.Teacher.Nickname } })
+                                                              .Select(sc => new ClassroomModel { Id = sc.Id, Name = sc.Classroom.ClassName, Teacher = new UserModel { Nickname = sc.Classroom.Teacher.Nickname } })
                                                               .ToListAsync()
                 };
             }
             else
             {
-                return new CommonListResultModel<ClassRoomModel>
+                return new CommonListResultModel<ClassroomModel>
                 {
-                    Items = await _dbContext.ClassRooms.Where(c => c.TeacherId == uid)
-                                                       .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, StudentCount = c.Students.Count })
+                    Items = await _dbContext.Classrooms.Where(c => c.TeacherId == uid)
+                                                       .Select(c => new ClassroomModel { Id = c.Id, Name = c.ClassName, StudentCount = c.Students.Count })
                                                        .ToListAsync()
                 };
             }
@@ -54,36 +54,36 @@ namespace AlgoApp.Areas.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ClassRoomModel> AddClassRoom([FromBody] NewClassModel model)
+        public async Task<ClassroomModel> AddClassroom([FromBody] NewClassModel model)
         {
             var uid = int.Parse(User.Claims.GetClaim(ClaimTypes.NameIdentifier));
-            var classRoom = new ClassRoom { ClassName = model.Name, TeacherId = uid };
-            _dbContext.ClassRooms.Add(classRoom);
+            var classRoom = new Classroom { ClassName = model.Name, TeacherId = uid };
+            _dbContext.Classrooms.Add(classRoom);
             await _dbContext.SaveChangesAsync();
 
-            return new ClassRoomModel { Code = Codes.None, Id = classRoom.Id, Name = classRoom.ClassName };
+            return new ClassroomModel { Code = Codes.None, Id = classRoom.Id, Name = classRoom.ClassName };
         }
 
         [HttpDelete("{id}")]
-        public async Task<CommonResultModel> DeleteClassRoom(int id)
+        public async Task<CommonResultModel> DeleteClassroom(int id)
         {
-            var c = await _dbContext.ClassRooms.FindAsync(id);
-            var scid = await _dbContext.StudentsToClasses.Where(sc => sc.ClassRoomId == id).Select(sc => new StudentToClass { Id = sc.Id }).ToListAsync();
+            var c = await _dbContext.Classrooms.FindAsync(id);
+            var scid = await _dbContext.StudentsToClasses.Where(sc => sc.ClassroomId == id).Select(sc => new StudentToClass { Id = sc.Id }).ToListAsync();
             _dbContext.StudentsToClasses.RemoveRange(scid);
-            _dbContext.ClassRooms.Remove(c);
+            _dbContext.Classrooms.Remove(c);
             await _dbContext.SaveChangesAsync();
 
             return new CommonResultModel { Code = Codes.None };
         }
 
         [HttpGet("{searchText}")]
-        public async Task<CommonListResultModel<ClassRoomModel>> SearchClassImNotIn(string searchText)
+        public async Task<CommonListResultModel<ClassroomModel>> SearchClassImNotIn(string searchText)
         {
             var uid = int.Parse(User.Claims.GetClaim(ClaimTypes.NameIdentifier));
-            return new CommonListResultModel<ClassRoomModel>
+            return new CommonListResultModel<ClassroomModel>
             {
-                Items = await _dbContext.ClassRooms.Where(c => (c.ClassName.Contains(searchText) || c.Teacher.Nickname.Contains(searchText)) && !_dbContext.StudentsToClasses.Any(sc => sc.StudentId == uid && sc.ClassRoomId == c.Id))
-                                                   .Select(c => new ClassRoomModel { Id = c.Id, Name = c.ClassName, Teacher = new UserModel { Nickname = c.Teacher.Nickname } })
+                Items = await _dbContext.Classrooms.Where(c => (c.ClassName.Contains(searchText) || c.Teacher.Nickname.Contains(searchText)) && !_dbContext.StudentsToClasses.Any(sc => sc.StudentId == uid && sc.ClassroomId == c.Id))
+                                                   .Select(c => new ClassroomModel { Id = c.Id, Name = c.ClassName, Teacher = new UserModel { Nickname = c.Teacher.Nickname } })
                                                    .ToListAsync()
             };
         }
@@ -92,7 +92,7 @@ namespace AlgoApp.Areas.Api.Controllers
         public async Task<CommonResultModel> JoinClassRomm(int id)
         {
             var uid = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            _dbContext.StudentsToClasses.Add(new StudentToClass { ClassRoomId = id, StudentId = uid });
+            _dbContext.StudentsToClasses.Add(new StudentToClass { ClassroomId = id, StudentId = uid });
             await _dbContext.SaveChangesAsync();
 
             return new CommonResultModel { Code = Codes.None };
@@ -100,7 +100,7 @@ namespace AlgoApp.Areas.Api.Controllers
 
         public async Task<CommonResultModel> RemoveFromClassRomm(int cid, int uid)
         {
-            var stoc = await _dbContext.StudentsToClasses.FirstAsync(sc => sc.ClassRoomId == cid && sc.StudentId == uid);
+            var stoc = await _dbContext.StudentsToClasses.FirstAsync(sc => sc.ClassroomId == cid && sc.StudentId == uid);
             _dbContext.Remove(stoc);
             await _dbContext.SaveChangesAsync();
 
@@ -108,9 +108,9 @@ namespace AlgoApp.Areas.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ClassRoomModel> ClassRoom(int id)
+        public async Task<ClassroomModel> Classroom(int id)
         {
-            var classRoom = await _dbContext.ClassRooms.FindAsync(id);
+            var classRoom = await _dbContext.Classrooms.FindAsync(id);
             await _dbContext.Entry(classRoom).Collection(c => c.Students).LoadAsync();
             var students = new List<UserModel>();
             var userControll = new UserController(_dbContext, null);
@@ -119,7 +119,7 @@ namespace AlgoApp.Areas.Api.Controllers
                 students.Add(await userControll.UserDetail(sc.StudentId));
             }
 
-            return new ClassRoomModel { Id = classRoom.Id, Name = classRoom.ClassName, Students = students, StudentCount = students.Count };
+            return new ClassroomModel { Id = classRoom.Id, Name = classRoom.ClassName, Students = students, StudentCount = students.Count };
         }
 
         public class RenameClassRommPostModel
@@ -130,7 +130,7 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpPut("{id}")]
         public async Task<CommonResultModel> RenameClassRomm(int id, [FromBody] RenameClassRommPostModel model)
         {
-            var classRoom = await _dbContext.ClassRooms.FindAsync(id);
+            var classRoom = await _dbContext.Classrooms.FindAsync(id);
             classRoom.ClassName = model.NewName;
             await _dbContext.SaveChangesAsync();
 
@@ -146,12 +146,12 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpPost]
         public async Task<CommonResultModel> AddStudentToClass([FromBody] AddStudentToClassPostModel model)
         {
-            if (await _dbContext.StudentsToClasses.Where(sc => sc.StudentId == model.StudentId && sc.ClassRoomId == model.ClassId).CountAsync() != 0)
+            if (await _dbContext.StudentsToClasses.Where(sc => sc.StudentId == model.StudentId && sc.ClassroomId == model.ClassId).CountAsync() != 0)
             {
                 return new CommonResultModel { Code = Codes.RecordExists };
             }
 
-            await _dbContext.StudentsToClasses.AddAsync(new StudentToClass { ClassRoomId = model.ClassId, StudentId = model.StudentId });
+            await _dbContext.StudentsToClasses.AddAsync(new StudentToClass { ClassroomId = model.ClassId, StudentId = model.StudentId });
             await _dbContext.SaveChangesAsync();
             return new CommonResultModel { Code = Codes.None };
         }
@@ -159,7 +159,7 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpPost]
         public async Task<CommonResultModel> RemoveStudentFromClass([FromBody] AddStudentToClassPostModel model)
         {
-            var stoc = await _dbContext.StudentsToClasses.FirstAsync(sc => sc.StudentId == model.StudentId && sc.ClassRoomId == model.ClassId);
+            var stoc = await _dbContext.StudentsToClasses.FirstAsync(sc => sc.StudentId == model.StudentId && sc.ClassroomId == model.ClassId);
             _dbContext.StudentsToClasses.Remove(stoc);
             await _dbContext.SaveChangesAsync();
             return new CommonResultModel { Code = Codes.None };

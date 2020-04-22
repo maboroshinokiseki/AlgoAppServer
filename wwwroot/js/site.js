@@ -6,22 +6,56 @@
 $(document).ready(
     function () {
         let token = GetVerificationToken();
-        //$("button[data-userid]").click(function () {
-        //    $(this).parents("tr").hide(500);
-        //    let userId = $(this).data("userid");
-        //    $.post(window.location, { id: userId, __RequestVerificationToken: token });
-        //});
-
-        //$("button[data-chapterid]").click(function () {
-        //    $(this).parents("tr").hide(500);
-        //    let userId = $(this).data("chapterid");
-        //    $.post(window.location, { id: userId, __RequestVerificationToken: token });
-        //});
 
         $("button.delete-button").click(function () {
             $(this).parents("tr").hide(500);
             let itemId = $(this).data("id");
-            $.post(window.location, { id: itemId, __RequestVerificationToken: token });
+            $.post(window.location.href, { id: itemId, __RequestVerificationToken: token });
+        });
+
+        $("button#addStudentButton").click(function () {
+            let parent = $("#addStudentModalCenter");
+            let classroomId = parent.find("#ClassroomId").val();
+            let newStudentId = parent.find("#NewStudentId").val();
+            let url = window.location.href.includes('?') ? window.location.href + "&handler=AddStudent" : window.location.href + "?handler=AddStudent";
+            $.post(url, { classroomId: classroomId, userId: newStudentId, __RequestVerificationToken: token }, (result) => {
+                if (result == "Ok") {
+                    parent.modal("toggle");
+                } else {
+                    window.alert(result);
+                }
+            });
+        });
+
+        $("button.classroom-edit-button").click(function () {
+            let tr = $(this).parents("tr");
+            let editor = tr.find(".classroom-editor")[0];
+            let link = tr.find(".classroom-editor-display")[0];
+            let button = tr.find(".classroom-edit-save-button")[0]
+            $(editor).toggleClass("d-none");
+            $(link).toggleClass("d-none");
+            $(button).toggleClass("d-none");
+            $(this).toggleClass("d-none");
+        });
+
+        $("button.classroom-edit-save-button").click(function () {
+            let tr = $(this).parents("tr");
+            let editor = tr.find(".classroom-editor")[0];
+            let link = tr.find(".classroom-editor-display")[0];
+            let button = tr.find(".classroom-edit-button")[0]
+            $(editor).toggleClass("d-none");
+            $(link).toggleClass("d-none");
+            $(button).toggleClass("d-none");
+            $(this).toggleClass("d-none");
+            let itemId = $(this).data("id");
+            let url = window.location.href.includes('?') ? window.location.href + "&handler=Rename" : window.location.href + "?handler=Rename";
+            $.post(url, { id: itemId, newName: $(editor).val(), __RequestVerificationToken: token }, (result) => {
+                if (result == "Ok") {
+                    $(link).text($(editor).val().trim());
+                } else {
+                    window.alert(result);
+                }
+            });
         });
 
         function resetOptionIndexes() {
@@ -57,7 +91,7 @@ $(document).ready(
 		</select>
 	</td>
 	<td class="align-middle"><button type="button" class="btn btn-danger delete-option-button">删除</button></td>
-</tr>`)
+</tr>`);
             resetOptionIndexes();
         });
     }

@@ -1,0 +1,88 @@
+﻿@page
+@model AlgoApp.Pages.Admin.Messages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">留言类型</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var message in Model.Messages)
+        {
+        <tr>
+            <td class="align-middle">
+                @if (message.Read)
+                {
+                    <span></span>
+                }
+                else
+                {
+                    <span>（新）</span>
+                }
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => message.MessageType)
+            </td>
+            @switch (message.MessageType)
+            {
+                case Data.MessageType.NewQuestion:
+                    <td class="align-middle"><a class="btn btn-primary" asp-page="NewQuestionMessage" asp-route-id="@message.Id">查看</a></td>
+                    break;
+                case Data.MessageType.QuestionReport:
+                    <td class="align-middle"><a class="btn btn-primary" asp-page="QuestionReportMessage" asp-route-id="@message.Id">查看</a></td>
+                    break;
+                default:
+                    break;
+            }
+            <td class="align-middle"><button class="btn btn-danger delete-button" data-id="@message.Id">删除</button></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @{
+            int start = Math.Max(Model.Messages.PageIndex - 3, 1);
+            int end = Math.Min(Model.Messages.PageIndex + 3, Model.Messages.TotalPages);
+            bool showToFirstPage = start != 1;
+            bool showToLastPage = end != Model.Messages.TotalPages;
+            var prevDisabled = !Model.Messages.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.Messages.HasNextPage ? "disabled" : "";
+        }
+        @if (showToFirstPage)
+        {
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1">第一页</a></li>
+        }
+        <li class="page-item @prevDisabled">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Messages.PageIndex - 1)">上一页</a>
+        </li>
+        @if (showToFirstPage)
+        {
+            <li>...</li>
+        }
+        @for (int i = start; i <= end; i++)
+        {
+            var disabled = @Model.Messages.PageIndex == i ? "disabled" : "";
+            <li class="page-item @disabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
+        }
+        @if (showToLastPage)
+        {
+            <li>...</li>
+        }
+        <li class="page-item @nextDisabled">
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Messages.PageIndex + 1)">下一页</a>
+        </li>
+        @if (showToFirstPage)
+        {
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Messages.TotalPages)">最后页</a></li>
+        }
+    </ul>
+</nav>

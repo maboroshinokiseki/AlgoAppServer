@@ -80,7 +80,7 @@ namespace AlgoApp
         {
             
             return _dbContext.Users
-                .FirstOrDefault(u => u.Username == username && u.Password == password && u.Role == UserRole.Admin);
+                .FirstOrDefault(u => u.Username == username && u.Password == Utilities.HashPassword(password) && u.Role == UserRole.Admin);
         }
     }
 }

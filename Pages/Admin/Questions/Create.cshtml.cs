@@ -36,9 +36,15 @@ namespace AlgoApp.Pages.Admin.Questions
             }
 
             var selectionOptions = QuestionModel.SelectionAnswers;
-            if (selectionOptions?.Any() ?? false)
+            if (!selectionOptions?.Any() ?? true)
             {
                 ModelState.AddModelError(nameof(QuestionModel) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个选项");
+                return Page();
+            }
+
+            if (!selectionOptions.Any(o => o.Correct))
+            {
+                ModelState.AddModelError(nameof(QuestionModel) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个正确答案");
                 return Page();
             }
 
@@ -48,15 +54,6 @@ namespace AlgoApp.Pages.Admin.Questions
             }
 
             await _context.AddAsync(QuestionModel);
-            await _context.SaveChangesAsync();
-
-            foreach (var item in selectionOptions)
-            {
-                item.QuestionId = QuestionModel.Id;
-            }
-
-            await _context.AddRangeAsync(selectionOptions);
-
             await _context.SaveChangesAsync();
 
             return Redirect(".");

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AlgoApp.Areas.Api.Models
 {
-    public class ClassRoomModel : CommonResultModel
+    public class ClassroomModel : CommonResultModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

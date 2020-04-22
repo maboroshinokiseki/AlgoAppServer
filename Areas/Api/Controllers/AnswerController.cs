@@ -28,7 +28,7 @@ namespace AlgoApp.Areas.Api.Controllers
         public class PostModel
         {
             public int QuestionId { get; set; }
-            public int AnswerId { get; set; }
+            public List<int> AnswerIds { get; set; }
             public bool IsDailyPractice { get; set; }
         }
 
@@ -39,78 +39,79 @@ namespace AlgoApp.Areas.Api.Controllers
             {
                 var question = await _dbContext.Questions.FindAsync(model.QuestionId);
                 var uid = int.Parse(HttpContext.User.Claims.GetClaim(ClaimTypes.NameIdentifier));
+                var result = new AnswerResultModel();
                 if (question.Type == QuestionType.SingleSelection)
                 {
-                    var answer = await _dbContext.SelectionOptions.FindAsync(model.AnswerId);
+                    var answer = await _dbContext.SelectionOptions.FindAsync(model.AnswerIds[0]);
                     await _dbContext.UserAnswers.AddAsync(new UserAnswer
                     {
                         UserId = uid,
                         QuestionId = model.QuestionId,
                         Correct = answer.Correct,
-                        MyAnswers = new List<string>() { model.AnswerId.ToString() },
+                        MyAnswers = model.AnswerIds.ConvertAll(id => id.ToString()),
                         TimeStamp = DateTime.UtcNow,
                     });
-
-                    var result = new AnswerResultModel() { Correct = answer.Correct, UserAnswer = answer.Content, CorrectAnswer = answer.Content };
+                    result.Correct = answer.Correct;
+                    result.UserAnswers = new List<string>() { answer.Content };
+                    result.CorrectAnswers = result.UserAnswers;
                     if (!answer.Correct)
                     {
                         var correctAnswer = await _dbContext.SelectionOptions.FirstOrDefaultAsync(a => a.QuestionId == model.QuestionId && a.Correct == true);
-                        result.CorrectAnswer = correctAnswer.Content;
+                        result.CorrectAnswers = new List<string>() { correctAnswer.Content };
+                    }
+                }
+                else if (question.Type == QuestionType.MultiSelection)
+                {
+                    var userAnswers = await _dbContext.SelectionOptions.Where(o => model.AnswerIds.Contains(o.Id)).ToListAsync();
+                    var correctAnswers = await _dbContext.SelectionOptions.Where(o => o.QuestionId == userAnswers[0].QuestionId && o.Correct == true).ToListAsync();
+                    var isCorrect = correctAnswers.All(o => userAnswers.Contains(o)) && correctAnswers.Count == userAnswers.Count;
+                    await _dbContext.UserAnswers.AddAsync(new UserAnswer
+                    {
+                        UserId = uid,
+                        QuestionId = model.QuestionId,
+                        Correct = isCorrect,
+                        MyAnswers = model.AnswerIds.ConvertAll(id => id.ToString()),
+                        TimeStamp = DateTime.UtcNow,
+                    });
+                    result.Correct = isCorrect;
+                    result.UserAnswers = userAnswers.Select(a => a.Content).ToList();
+                    result.CorrectAnswers = correctAnswers.Select(a => a.Content).ToList();
+                }
+
+                if (result.Correct)
+                {
+                    var u = await _dbContext.Users.FindAsync(uid);
+                    u.Points += question.Difficulty + 1;
+                    //Process daily points
+                    var DailyData = await _dbContext.DailyPoints.OrderBy(d => d.Date).LastOrDefaultAsync(d => d.UserId == uid);
+                    if (DailyData?.Date == DateTime.Today)
+                    {
+                        DailyData.Points += question.Difficulty + 1;
                     }
                     else
                     {
-                        var u = await _dbContext.Users.FindAsync(uid);
-                        u.Points += question.Difficulty + 1;
-                        //Process daily points
-                        var DailyData = await _dbContext.DailyPoints.OrderBy(d => d.Date).LastOrDefaultAsync(d => d.UserId == uid);
-                        if (DailyData != null)
-                        {
-                            if (DailyData.Date == DateTime.Today)
-                            {
-                                DailyData.Points += question.Difficulty + 1;
-                            }
-                            else
-                            {
-                                if (DailyData.Date == DateTime.Today.AddDays(-1))
-                                {
-                                    await _dbContext.DailyPoints.AddAsync(new DailyPoints { UserId = uid, Date = DateTime.Today, Points = question.Difficulty + 1 });
-                                }
-                                else
-                                {
-                                    _dbContext.DailyPoints.Remove(DailyData);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            await _dbContext.DailyPoints.AddAsync(new DailyPoints { UserId = uid, Date = DateTime.Today, Points = question.Difficulty + 1 });
-                        }
+                        _dbContext.DailyPoints.RemoveRange(await _dbContext.DailyPoints.Where(d => d.UserId == uid && d.Date < DateTime.Today.AddDays(-1)).ToListAsync());
+                        await _dbContext.DailyPoints.AddAsync(new DailyPoints { UserId = uid, Date = DateTime.Today, Points = question.Difficulty + 1 });
                     }
-
-                    if (model.IsDailyPractice)
-                    {
-                        var DailyData = await _dbContext.DailyPractices.OrderBy(d => d.Date).LastOrDefaultAsync(d => d.UserId == uid);
-                        if (DailyData != null)
-                        {
-                            if (DailyData.Date == DateTime.Today)
-                            {
-                                DailyData.Count++;
-                            }
-                            else
-                            {
-                                _dbContext.DailyPractices.Remove(DailyData);
-                            }
-                        }
-                        else
-                        {
-                            await _dbContext.DailyPractices.AddAsync(new DailyPractice { UserId = uid, Date = DateTime.Today, Count = 1 });
-                        }
-                    }
-
-                    await _dbContext.SaveChangesAsync();
-
-                    return result;
                 }
+
+                if (model.IsDailyPractice)
+                {
+                    var DailyData = await _dbContext.DailyPractices.OrderBy(d => d.Date).LastOrDefaultAsync(d => d.UserId == uid);
+                    if (DailyData?.Date == DateTime.Today)
+                    {
+                        DailyData.Count++;
+                    }
+                    else
+                    {
+                        _dbContext.DailyPractices.RemoveRange(await _dbContext.DailyPractices.Where(d => d.UserId == uid && d.Date < DateTime.Today).ToListAsync());
+                        await _dbContext.DailyPractices.AddAsync(new DailyPractice { UserId = uid, Date = DateTime.Today, Count = 1 });
+                    }
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                return result;
             }
 
             return new AnswerResultModel { Code = Codes.Unknown, Description = "Unknow Error." };
@@ -127,10 +128,7 @@ namespace AlgoApp.Areas.Api.Controllers
             var histories = new List<HistoryItemModel>();
             foreach (var answer in answers)
             {
-                if (answer.Question.Type == QuestionType.SingleSelection)
-                {
-                    histories.Add(new HistoryItemModel() { QuestionId = answer.QuestionId, AnswerId = answer.Id, QuestionContent = answer.Question.Content, Correct = answer.Correct });
-                }
+                histories.Add(new HistoryItemModel() { QuestionId = answer.QuestionId, AnswerId = answer.Id, QuestionContent = answer.Question.Content, Correct = answer.Correct });
             }
 
             return new CommonListResultModel<HistoryItemModel> { Items = histories };

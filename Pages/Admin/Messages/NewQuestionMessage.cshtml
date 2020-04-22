@@ -1,0 +1,59 @@
+﻿@page
+@model AlgoApp.Pages.Admin.Messages.NewQuestionMessageModel
+@{
+    ViewData["Title"] = "NewQuestionMessage";
+}
+
+        <div class="form-group row">
+            <label asp-for="MessageContentDetail.ChapterName" class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <input asp-for="MessageContentDetail.ChapterName" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="MessageContentDetail.Content" class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <textarea asp-for="MessageContentDetail.Content" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2">备选答案</label>
+            <div class="col-sm-10">
+                <table class="col-sm-10 table table-borderless" id="SelectionOptions">
+                    <thead>
+                        <tr>
+                            <th scope="col">答案描述</th>
+                            <th scope="col">正确答案</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < (Model.MessageContentDetail?.Options?.Count ?? 0); i++)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <input asp-for="@Model.MessageContentDetail.Options[i].OptionText" class="form-control">
+                                </td>
+                                <td class="align-middle">
+                                    <span>@(Model.MessageContentDetail.Options[i].IsCorrect?"是":"否")</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="MessageContentDetail.Analysis" class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <textarea asp-for="MessageContentDetail.Analysis" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="MessageContentDetail.Difficulty" class="col-form-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <input asp-for="MessageContentDetail.Difficulty" class="form-control" />
+            </div>
+        </div>
+        <a href="." class="btn btn-primary">返回</a>
+    

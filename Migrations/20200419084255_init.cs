@@ -13,7 +13,7 @@ namespace AlgoApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Order = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -46,7 +46,7 @@ namespace AlgoApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: false),
                     Analysis = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
                     ChapterId = table.Column<int>(nullable: false),
@@ -64,7 +64,7 @@ namespace AlgoApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassRooms",
+                name: "Classrooms",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -74,9 +74,9 @@ namespace AlgoApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassRooms", x => x.Id);
+                    table.PrimaryKey("PK_Classrooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClassRooms_Users_TeacherId",
+                        name: "FK_Classrooms_Users_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -221,7 +221,7 @@ namespace AlgoApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: false),
                     QuestionId = table.Column<int>(nullable: false),
                     Correct = table.Column<bool>(nullable: false)
                 },
@@ -271,16 +271,16 @@ namespace AlgoApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ClassRoomId = table.Column<int>(nullable: false),
+                    ClassroomId = table.Column<int>(nullable: false),
                     StudentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StudentsToClasses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentsToClasses_ClassRooms_ClassRoomId",
-                        column: x => x.ClassRoomId,
-                        principalTable: "ClassRooms",
+                        name: "FK_StudentsToClasses_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -349,152 +349,152 @@ namespace AlgoApp.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 10, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9664), 2, "冯同学", "123", 128, 2, "student10" });
+                values: new object[] { 10, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9126), 2, "冯同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 128, 2, "student10" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 15, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9677), 2, "沈同学", "123", 0, 2, "student11" });
+                values: new object[] { 15, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9138), 2, "沈同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 0, 2, "student11" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 14, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9675), 2, "蒋同学", "123", 0, 2, "student10" });
+                values: new object[] { 14, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9135), 2, "蒋同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 0, 2, "student10" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 13, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9672), 2, "卫同学", "123", 1024, 2, "student13" });
+                values: new object[] { 13, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9133), 2, "卫同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 1024, 2, "student13" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 12, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9670), 2, "褚同学", "123", 512, 2, "student12" });
+                values: new object[] { 12, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9131), 2, "褚同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 512, 2, "student12" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 11, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9667), 2, "陈同学", "123", 256, 2, "student11" });
+                values: new object[] { 11, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9128), 2, "陈同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 256, 2, "student11" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 9, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9661), 2, "王同学", "123", 64, 2, "student09" });
+                values: new object[] { 9, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9123), 2, "王同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 64, 2, "student09" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 3, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9112), 2, "钱老师", "123", 0, 1, "teacherqian" });
+                values: new object[] { 3, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(8546), 2, "钱老师", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 0, 1, "teacherqian" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 7, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9656), 2, "吴同学", "123", 16, 2, "student07" });
+                values: new object[] { 7, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9117), 2, "吴同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 16, 2, "student07" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 6, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9653), 2, "周同学", "123", 8, 2, "student06" });
+                values: new object[] { 6, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9114), 2, "周同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 8, 2, "student06" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 5, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9625), 2, "李同学", "123", 4, 2, "studentli" });
+                values: new object[] { 5, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9090), 2, "李同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 4, 2, "studentli" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 4, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9141), 1, "孙同学", "123", 2, 2, "studentsun" });
+                values: new object[] { 4, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(8590), 1, "孙同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 2, 2, "studentsun" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 16, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9680), 2, "韩同学", "123", 0, 2, "student12" });
+                values: new object[] { 16, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9140), 2, "韩同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 0, 2, "student12" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 2, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(156), 1, "赵老师", "123", 0, 1, "teacherzhao" });
+                values: new object[] { 2, new DateTime(2000, 4, 19, 16, 42, 55, 263, DateTimeKind.Local).AddTicks(9395), 1, "赵老师", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 0, 1, "teacherzhao" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, null, "root", 0, 0, "root" });
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Root", "5A5008BE2706857BBCABB8379803EAEB321BB799", 0, 0, "root" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 8, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9659), 2, "郑同学", "123", 32, 2, "student08" });
+                values: new object[] { 8, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9120), 2, "郑同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 32, 2, "student08" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "BirthDay", "Gender", "Nickname", "Password", "Points", "Role", "Username" },
-                values: new object[] { 17, new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9682), 2, "杨同学", "123", 0, 2, "student13" });
+                values: new object[] { 17, new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9143), 2, "杨同学", "A288A447BECB60599F59804FCF69B7770A7F6BC8", 0, 2, "student13" });
 
             migrationBuilder.InsertData(
-                table: "ClassRooms",
+                table: "Classrooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
                 values: new object[] { 1, "赵老师的班级_计科", 2 });
 
             migrationBuilder.InsertData(
-                table: "ClassRooms",
+                table: "Classrooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
                 values: new object[] { 2, "赵老师的班级_电信", 2 });
 
             migrationBuilder.InsertData(
-                table: "ClassRooms",
+                table: "Classrooms",
                 columns: new[] { "Id", "ClassName", "TeacherId" },
                 values: new object[] { 3, "钱老师的班级", 3 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 1, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 1, 4 });
+                values: new object[] { 1, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 1, 4 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 2, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 2, 5 });
+                values: new object[] { 2, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 2, 5 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 3, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 4, 6 });
+                values: new object[] { 3, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 4, 6 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 4, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 8, 7 });
+                values: new object[] { 4, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 8, 7 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 5, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 16, 8 });
+                values: new object[] { 5, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 16, 8 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 6, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 32, 9 });
+                values: new object[] { 6, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 32, 9 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 7, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 64, 10 });
+                values: new object[] { 7, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 64, 10 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 8, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 128, 11 });
+                values: new object[] { 8, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 128, 11 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 9, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 256, 12 });
+                values: new object[] { 9, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 256, 12 });
 
             migrationBuilder.InsertData(
                 table: "DailyPoints",
                 columns: new[] { "Id", "Date", "Points", "UserId" },
-                values: new object[] { 10, new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local), 512, 13 });
+                values: new object[] { 10, new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), 512, 13 });
 
             migrationBuilder.InsertData(
                 table: "Questions",
@@ -573,72 +573,72 @@ namespace AlgoApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 8, 1, 11 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 12, 2, 15 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 11, 2, 14 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 10, 1, 13 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 9, 1, 12 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 7, 1, 10 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 1, 1, 4 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 5, 1, 8 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 4, 1, 7 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 3, 1, 6 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 2, 1, 5 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 13, 2, 16 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 6, 1, 9 });
 
             migrationBuilder.InsertData(
                 table: "StudentsToClasses",
-                columns: new[] { "Id", "ClassRoomId", "StudentId" },
+                columns: new[] { "Id", "ClassroomId", "StudentId" },
                 values: new object[] { 14, 2, 17 });
 
             migrationBuilder.CreateIndex(
@@ -652,8 +652,8 @@ namespace AlgoApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassRooms_TeacherId",
-                table: "ClassRooms",
+                name: "IX_Classrooms_TeacherId",
+                table: "Classrooms",
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
@@ -692,9 +692,9 @@ namespace AlgoApp.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentsToClasses_ClassRoomId",
+                name: "IX_StudentsToClasses_ClassroomId",
                 table: "StudentsToClasses",
-                column: "ClassRoomId");
+                column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentsToClasses_StudentId",
@@ -742,7 +742,7 @@ namespace AlgoApp.Migrations
                 name: "UserAnswers");
 
             migrationBuilder.DropTable(
-                name: "ClassRooms");
+                name: "Classrooms");
 
             migrationBuilder.DropTable(
                 name: "Questions");

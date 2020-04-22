@@ -40,7 +40,7 @@ namespace AlgoApp.Areas.Api.Controllers
                 var userAnswer = await _dbContext.UserAnswers.OrderBy(a => a.Id).LastOrDefaultAsync(a => a.UserId == uid && a.QuestionId == question.Id);
                 if (userAnswer != null)
                 {
-                    question.AnswerResult = await GetAnswerAsync(qid, question.Type, userAnswer.Id);
+                    question.AnswerResult = await GetUserAnswerAsync(qid, question.Type, userAnswer.Id);
                     question.Status = question.AnswerResult.Correct ? QuestionStatus.CorrectAnswer : QuestionStatus.WrongAnswer;
                 }
             }
@@ -76,15 +76,19 @@ namespace AlgoApp.Areas.Api.Controllers
                 var todayNotTouchedQuestionCount = await todayNotTouchedQuestion.CountAsync();
                 if (todayNotTouchedQuestionCount == 0)
                 {
-                    questionId = await _dbContext.Questions.OrderBy(q => q.Id).Skip(random.Next(0, await _dbContext.Questions.CountAsync())).Take(1).Select(q => q.Id).FirstAsync();
+                    var lastAnswer = await _dbContext.UserAnswers.OrderBy(a => a.Id)
+                                                                 .LastOrDefaultAsync(a => a.UserId == uid);
+                    questionId = await _dbContext.Questions.OrderBy(q => q.Id)
+                                                           .Where(q => q.Id != lastAnswer.QuestionId)
+                                                           .Skip(random.Next(0, await _dbContext.Questions.CountAsync() - 1))
+                                                           .Take(1)
+                                                           .Select(q => q.Id)
+                                                           .FirstAsync();
                 }
                 else
                 {
-                    var lastAnswer = await _dbContext.UserAnswers.OrderBy(a => a.Id)
-                                                                 .LastOrDefaultAsync(a => a.UserId == uid);
                     questionId = await todayNotTouchedQuestion.OrderBy(q => q.Id)
-                                                              .Where(q => q.Id != lastAnswer.QuestionId)
-                                                              .Skip(random.Next(0, todayNotTouchedQuestionCount - 1))
+                                                              .Skip(random.Next(0, todayNotTouchedQuestionCount))
                                                               .Take(1)
                                                               .Select(q => q.Id)
                                                               .FirstAsync();
@@ -120,7 +124,7 @@ namespace AlgoApp.Areas.Api.Controllers
         public async Task<QuestionModel> GetQuestionAsync(int qid, int aid)
         {
             var question = await GetQuestionOnlyAsync(qid);
-            question.AnswerResult = await GetAnswerAsync(qid, question.Type, aid);
+            question.AnswerResult = await GetUserAnswerAsync(qid, question.Type, aid);
             question.Status = question.AnswerResult.Correct ? QuestionStatus.CorrectAnswer : QuestionStatus.WrongAnswer;
 
             return question;
@@ -130,7 +134,7 @@ namespace AlgoApp.Areas.Api.Controllers
         {
             var question = ObjectMapper.Map(await _dbContext.Questions.FindAsync(questionId), new QuestionModel { Status = QuestionStatus.Untouched });
 
-            if (question.Type == QuestionType.SingleSelection)
+            if (question.Type == QuestionType.SingleSelection || question.Type == QuestionType.MultiSelection)
             {
                 var options = await _dbContext.SelectionOptions.Where(a => a.QuestionId == questionId)
                     .Select(a => new QuestionModel.Option { Id = a.Id, Content = a.Content })
@@ -143,26 +147,27 @@ namespace AlgoApp.Areas.Api.Controllers
 
         private async Task<AnswerResultModel> GetCorrectAnswerAsync(int questionId, QuestionType questionType)
         {
-            if (questionType == QuestionType.SingleSelection)
+            if (questionType == QuestionType.SingleSelection || questionType == QuestionType.MultiSelection)
             {
-                var correctAnswer = await _dbContext.SelectionOptions.FirstAsync(a => a.QuestionId == questionId && a.Correct == true);
-                return new AnswerResultModel() { CorrectAnswer = correctAnswer.Content };
+                var correctAnswer = await _dbContext.SelectionOptions.Where(a => a.QuestionId == questionId && a.Correct == true).Select(o => o.Content).ToListAsync();
+                return new AnswerResultModel() { CorrectAnswers = correctAnswer };
             }
 
             return null;
         }
 
-        private async Task<AnswerResultModel> GetAnswerAsync(int questionId, QuestionType questionType, int userAnswerId)
+        private async Task<AnswerResultModel> GetUserAnswerAsync(int questionId, QuestionType questionType, int userAnswerId)
         {
             var userAnswer = await _dbContext.UserAnswers.FindAsync(userAnswerId);
             if (userAnswer != null)
             {
-                if (questionType == QuestionType.SingleSelection)
+                if (questionType == QuestionType.SingleSelection || questionType == QuestionType.MultiSelection)
                 {
-                    var userAnswerDetail = await _dbContext.SelectionOptions.FindAsync(int.Parse(userAnswer.MyAnswers[0]));
+                    var myAnswerIds = userAnswer.MyAnswers.ConvertAll(a => int.Parse(a));
+                    var userAnswerDetail = await _dbContext.SelectionOptions.Where(o => myAnswerIds.Contains(o.Id)).Select(o => o.Content).ToListAsync();
                     var result = await GetCorrectAnswerAsync(questionId, questionType);
                     result.Correct = userAnswer.Correct;
-                    result.UserAnswer = userAnswerDetail.Content;
+                    result.UserAnswers = userAnswerDetail;
                     return result;
                 }
             }
@@ -173,7 +178,7 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpGet("EasyToGetWrongChaptersByClass/{classId}")]
         public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> EasyToGetWrongChaptersByClass(int classId)
         {
-            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassRoomId == classId).Select(sc => sc.StudentId);
+            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassroomId == classId).Select(sc => sc.StudentId);
             var questionIds = _dbContext.UserAnswers.Where(a => studentIds.Contains(a.UserId))
                                                     .Select(a => a.QuestionId)
                                                     .Distinct();
@@ -193,13 +198,14 @@ namespace AlgoApp.Areas.Api.Controllers
                 double correctAnswerCount = await _dbContext.UserAnswers.Where(a => questionIds.Contains(a.QuestionId) && a.Question.ChapterId == item.Id && a.Correct == true).CountAsync();
                 resultList.Add(new EasyToGetWrongQuestionModel { ChapterId = item.Id, Content = item.Name, CorrectRatio = correctAnswerCount / allAnswerCount });
             }
+
             return new CommonListResultModel<EasyToGetWrongQuestionModel> { Code = Codes.None, Items = resultList.Where(a => a.CorrectRatio < 1).OrderBy(a => a.CorrectRatio).ToList() };
         }
 
         [HttpGet("EasyToGetWrongQuestionsByClassChapter/{classId}/{chapterId}")]
         public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> EasyToGetWrongQuestionsByClassChapter(int classId, int chapterId)
         {
-            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassRoomId == classId).Select(sc => sc.StudentId);
+            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassroomId == classId).Select(sc => sc.StudentId);
             var questions = await _dbContext.UserAnswers.Where(a => studentIds.Contains(a.UserId) && a.Question.ChapterId == chapterId)
                                                         .Select(a => a.Question)
                                                         .Distinct()
@@ -217,19 +223,20 @@ namespace AlgoApp.Areas.Api.Controllers
         [HttpGet("EasyToGetWrongQuestionDetail/{classId}/{questionId}")]
         public async Task<CommonListResultModel<EasyToGetWrongQuestionModel>> GetEasyToGetWrongQuestionDetail(int classId, int questionId)
         {
-            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassRoomId == classId).Select(sc => sc.StudentId);
+            var studentIds = _dbContext.StudentsToClasses.Where(sc => sc.ClassroomId == classId).Select(sc => sc.StudentId);
             var result = new CommonListResultModel<EasyToGetWrongQuestionModel> { Items = new List<EasyToGetWrongQuestionModel>() };
             var question = await _dbContext.Questions.FindAsync(questionId);
-            if (question.Type == QuestionType.SingleSelection)
+            if (question.Type == QuestionType.SingleSelection || question.Type == QuestionType.MultiSelection)
             {
                 var answers = await _dbContext.UserAnswers.Include(a => a.User).Where(a => studentIds.Contains(a.UserId) && a.QuestionId == questionId && a.Correct == false).ToListAsync();
                 foreach (var item in answers)
                 {
-                    var userOption = await _dbContext.SelectionOptions.FindAsync(int.Parse(item.MyAnswers[0]));
-                    result.Items.Add(new EasyToGetWrongQuestionModel { UserNickname = item.User.Nickname, UserAnswer = userOption.Content });
+                    var myAnswerIds = item.MyAnswers.ConvertAll(a => int.Parse(a));
+                    var userOptions = await _dbContext.SelectionOptions.Where(o => myAnswerIds.Contains(o.Id)).Select(o => o.Content).ToListAsync();
+                    result.Items.Add(new EasyToGetWrongQuestionModel { UserNickname = item.User.Nickname, UserAnswer = string.Join("、", userOptions) });
                 }
             }
-            
+
             return result;
         }
     }

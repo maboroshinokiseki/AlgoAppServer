@@ -5,7 +5,8 @@
 }
 
 <form asp-page="." method="get" class="input-group w-25 float-left">
-    <input type="search" class="form-control" placeholder="昵称" name="SearchString" value="@Model.CurrentFilter">
+    <input type="hidden" asp-for="@Model.ChapterId" />
+    <input type="search" class="form-control" placeholder="题目" name="SearchString" value="@Model.CurrentFilter">
     <div class="input-group-append">
         <input type="submit" value="搜索" class="btn btn-primary">
     </div>
@@ -37,7 +38,7 @@
                     @Html.DisplayFor(modelItem => question.Type)
                 </td>
                 <td class="align-middle"><a class="btn btn-primary" asp-page="Edit" asp-route-chapterid="@question.ChapterId" asp-route-id="@question.Id">编辑</a></td>
-                <td class="align-middle"><button type="submit" class="btn btn-danger" data-id="@question.Id">删除</button></td>
+                <td class="align-middle"><button class="btn btn-danger" data-id="@question.Id">删除</button></td>
             </tr>
         }
     </tbody>
@@ -55,10 +56,10 @@
         }
         @if (showToFirstPage)
         {
-            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1" asp-route-searchString="@Model.CurrentFilter">第一页</a></li>
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1" asp-route-chapterid="@Model.ChapterId" asp-route-searchString="@Model.CurrentFilter">第一页</a></li>
         }
         <li class="page-item @prevDisabled">
-            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Questions.PageIndex - 1)" asp-route-searchString="@Model.CurrentFilter">上一页</a>
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Questions.PageIndex - 1)" asp-route-chapterid="@Model.ChapterId" asp-route-searchString="@Model.CurrentFilter">上一页</a>
         </li>
         @if (showToFirstPage)
         {
@@ -67,18 +68,18 @@
         @for (int i = start; i <= end; i++)
         {
             var disabled = @Model.Questions.PageIndex == i ? "disabled" : "";
-            <li class="page-item @disabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i" asp-route-searchString="@Model.CurrentFilter">@i</a></li>
+            <li class="page-item @disabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i" asp-route-chapterid="@Model.ChapterId" asp-route-searchString="@Model.CurrentFilter">@i</a></li>
         }
         @if (showToLastPage)
         {
             <li>...</li>
         }
         <li class="page-item @nextDisabled">
-            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Questions.PageIndex + 1)" asp-route-searchString="@Model.CurrentFilter">下一页</a>
+            <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Questions.PageIndex + 1)" asp-route-chapterid="@Model.ChapterId" asp-route-searchString="@Model.CurrentFilter">下一页</a>
         </li>
         @if (showToFirstPage)
         {
-            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Questions.TotalPages)" asp-route-searchString="@Model.CurrentFilter">最后页</a></li>
+            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Questions.TotalPages)" asp-route-chapterid="@Model.ChapterId" asp-route-searchString="@Model.CurrentFilter">最后页</a></li>
         }
     </ul>
 </nav>

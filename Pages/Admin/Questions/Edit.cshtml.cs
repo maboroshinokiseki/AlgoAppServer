@@ -44,15 +44,21 @@ namespace AlgoApp.Pages.Admin.Questions
         {
             if (!ModelState.IsValid)
             {
-                return await OnGetAsync(QuestionModel.Id);
+                return Page();
             }
 
             var selectionOptions = QuestionModel.SelectionAnswers;
 
-            if (selectionOptions?.Any() ?? false)
+            if (!selectionOptions?.Any() ?? true)
             {
-                ModelState.AddModelError(nameof(QuestionModel.SelectionAnswers) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个选项");
-                return await OnGetAsync(QuestionModel.Id);
+                ModelState.AddModelError(nameof(QuestionModel) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个选项");
+                return Page();
+            }
+
+            if (!selectionOptions.Any(o => o.Correct))
+            {
+                ModelState.AddModelError(nameof(QuestionModel) + "." + nameof(QuestionModel.SelectionAnswers), "至少要有一个正确答案");
+                return Page();
             }
 
             var question = await _context.Questions.Include(q => q.SelectionAnswers).Where(q => q.Id == QuestionModel.Id).FirstOrDefaultAsync();

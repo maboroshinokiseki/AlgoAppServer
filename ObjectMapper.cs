@@ -15,9 +15,9 @@
             foreach (var op in ops)
             {
                 var info = ntype.GetProperty(op.Name);
-                if (info.CanWrite)
+                if (info?.CanWrite ?? false)
                 {
-                    info?.SetValue(newVariable, op.GetValue(originVariable));
+                    info.SetValue(newVariable, op.GetValue(originVariable));
                 }
             }
 

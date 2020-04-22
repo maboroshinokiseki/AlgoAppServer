@@ -44,6 +44,7 @@ namespace AlgoApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Order")
@@ -122,7 +123,7 @@ namespace AlgoApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AlgoApp.Data.ClassRoom", b =>
+            modelBuilder.Entity("AlgoApp.Data.Classroom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -138,7 +139,7 @@ namespace AlgoApp.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("ClassRooms");
+                    b.ToTable("Classrooms");
 
                     b.HasData(
                         new
@@ -186,70 +187,70 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 1,
                             UserId = 4
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 2,
                             UserId = 5
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 4,
                             UserId = 6
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 8,
                             UserId = 7
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 16,
                             UserId = 8
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 32,
                             UserId = 9
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 64,
                             UserId = 10
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 128,
                             UserId = 11
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 256,
                             UserId = 12
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2020, 4, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            Date = new DateTime(2020, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Points = 512,
                             UserId = 13
                         });
@@ -337,6 +338,7 @@ namespace AlgoApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Difficulty")
@@ -410,6 +412,7 @@ namespace AlgoApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Correct")
@@ -517,7 +520,7 @@ namespace AlgoApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClassRoomId")
+                    b.Property<int>("ClassroomId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("StudentId")
@@ -525,7 +528,7 @@ namespace AlgoApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassRoomId");
+                    b.HasIndex("ClassroomId");
 
                     b.HasIndex("StudentId");
 
@@ -535,85 +538,85 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 1,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 4
                         },
                         new
                         {
                             Id = 2,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 5
                         },
                         new
                         {
                             Id = 3,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 6
                         },
                         new
                         {
                             Id = 4,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 7
                         },
                         new
                         {
                             Id = 5,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 8
                         },
                         new
                         {
                             Id = 6,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 9
                         },
                         new
                         {
                             Id = 7,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 10
                         },
                         new
                         {
                             Id = 8,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 11
                         },
                         new
                         {
                             Id = 9,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 12
                         },
                         new
                         {
                             Id = 10,
-                            ClassRoomId = 1,
+                            ClassroomId = 1,
                             StudentId = 13
                         },
                         new
                         {
                             Id = 11,
-                            ClassRoomId = 2,
+                            ClassroomId = 2,
                             StudentId = 14
                         },
                         new
                         {
                             Id = 12,
-                            ClassRoomId = 2,
+                            ClassroomId = 2,
                             StudentId = 15
                         },
                         new
                         {
                             Id = 13,
-                            ClassRoomId = 2,
+                            ClassroomId = 2,
                             StudentId = 16
                         },
                         new
                         {
                             Id = 14,
-                            ClassRoomId = 2,
+                            ClassroomId = 2,
                             StudentId = 17
                         });
                 });
@@ -657,7 +660,8 @@ namespace AlgoApp.Migrations
                             Id = 1,
                             BirthDay = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Gender = 0,
-                            Password = "root",
+                            Nickname = "Root",
+                            Password = "5A5008BE2706857BBCABB8379803EAEB321BB799",
                             Points = 0,
                             Role = 0,
                             Username = "root"
@@ -665,10 +669,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 2,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(156),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 263, DateTimeKind.Local).AddTicks(9395),
                             Gender = 1,
                             Nickname = "赵老师",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 0,
                             Role = 1,
                             Username = "teacherzhao"
@@ -676,10 +680,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 3,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9112),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(8546),
                             Gender = 2,
                             Nickname = "钱老师",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 0,
                             Role = 1,
                             Username = "teacherqian"
@@ -687,10 +691,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 4,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9141),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(8590),
                             Gender = 1,
                             Nickname = "孙同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 2,
                             Role = 2,
                             Username = "studentsun"
@@ -698,10 +702,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 5,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9625),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9090),
                             Gender = 2,
                             Nickname = "李同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 4,
                             Role = 2,
                             Username = "studentli"
@@ -709,10 +713,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 6,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9653),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9114),
                             Gender = 2,
                             Nickname = "周同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 8,
                             Role = 2,
                             Username = "student06"
@@ -720,10 +724,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 7,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9656),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9117),
                             Gender = 2,
                             Nickname = "吴同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 16,
                             Role = 2,
                             Username = "student07"
@@ -731,10 +735,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 8,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9659),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9120),
                             Gender = 2,
                             Nickname = "郑同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 32,
                             Role = 2,
                             Username = "student08"
@@ -742,10 +746,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 9,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9661),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9123),
                             Gender = 2,
                             Nickname = "王同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 64,
                             Role = 2,
                             Username = "student09"
@@ -753,10 +757,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 10,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9664),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9126),
                             Gender = 2,
                             Nickname = "冯同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 128,
                             Role = 2,
                             Username = "student10"
@@ -764,10 +768,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 11,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9667),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9128),
                             Gender = 2,
                             Nickname = "陈同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 256,
                             Role = 2,
                             Username = "student11"
@@ -775,10 +779,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 12,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9670),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9131),
                             Gender = 2,
                             Nickname = "褚同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 512,
                             Role = 2,
                             Username = "student12"
@@ -786,10 +790,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 13,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9672),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9133),
                             Gender = 2,
                             Nickname = "卫同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 1024,
                             Role = 2,
                             Username = "student13"
@@ -797,10 +801,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 14,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9675),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9135),
                             Gender = 2,
                             Nickname = "蒋同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 0,
                             Role = 2,
                             Username = "student10"
@@ -808,10 +812,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 15,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9677),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9138),
                             Gender = 2,
                             Nickname = "沈同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 0,
                             Role = 2,
                             Username = "student11"
@@ -819,10 +823,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 16,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9680),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9140),
                             Gender = 2,
                             Nickname = "韩同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 0,
                             Role = 2,
                             Username = "student12"
@@ -830,10 +834,10 @@ namespace AlgoApp.Migrations
                         new
                         {
                             Id = 17,
-                            BirthDay = new DateTime(2000, 4, 14, 0, 28, 58, 596, DateTimeKind.Local).AddTicks(9682),
+                            BirthDay = new DateTime(2000, 4, 19, 16, 42, 55, 264, DateTimeKind.Local).AddTicks(9143),
                             Gender = 2,
                             Nickname = "杨同学",
-                            Password = "123",
+                            Password = "A288A447BECB60599F59804FCF69B7770A7F6BC8",
                             Points = 0,
                             Role = 2,
                             Username = "student13"
@@ -885,7 +889,7 @@ namespace AlgoApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AlgoApp.Data.ClassRoom", b =>
+            modelBuilder.Entity("AlgoApp.Data.Classroom", b =>
                 {
                     b.HasOne("AlgoApp.Data.User", "Teacher")
                         .WithMany()
@@ -959,9 +963,9 @@ namespace AlgoApp.Migrations
 
             modelBuilder.Entity("AlgoApp.Data.StudentToClass", b =>
                 {
-                    b.HasOne("AlgoApp.Data.ClassRoom", "ClassRoom")
+                    b.HasOne("AlgoApp.Data.Classroom", "Classroom")
                         .WithMany("Students")
-                        .HasForeignKey("ClassRoomId")
+                        .HasForeignKey("ClassroomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

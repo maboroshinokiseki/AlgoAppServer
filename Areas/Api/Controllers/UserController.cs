@@ -121,7 +121,7 @@ namespace AlgoApp.Areas.Api.Controllers
         {
             var students = await _dbContext.Users.Where(u => u.Role == UserRole.Student &&
                                                         u.Nickname.Contains(name) &&
-                                                        _dbContext.StudentsToClasses.Where(c => c.ClassRoomId == id && c.StudentId == u.Id).Count() == 0)
+                                                        _dbContext.StudentsToClasses.Where(c => c.ClassroomId == id && c.StudentId == u.Id).Count() == 0)
                                                  .ToListAsync();
             var result = new CommonListResultModel<UserModel> { Items = new List<UserModel>() };
             foreach (var s in students)
