@@ -39,6 +39,9 @@ namespace AlgoApp
             IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = await source.CountAsync();
+            var totalPages = (int)Math.Ceiling(count / (double)pageSize);
+            pageIndex = Math.Max(pageIndex, 1);
+            pageIndex = Math.Min(pageIndex, totalPages);
             var items = await source.Skip(
                 (pageIndex - 1) * pageSize)
                 .Take(pageSize).ToListAsync();

@@ -66,7 +66,7 @@
         </li>
         @if (showToFirstPage)
         {
-            <li>...</li>
+    <li class="page-item page-link">...</li>
         }
         @for (int i = start; i <= end; i++)
         {
@@ -75,12 +75,12 @@
         }
         @if (showToLastPage)
         {
-            <li>...</li>
+    <li class="page-item page-link">...</li>
         }
         <li class="page-item @nextDisabled">
             <a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Messages.PageIndex + 1)">下一页</a>
         </li>
-        @if (showToFirstPage)
+        @if (showToLastPage)
         {
             <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Messages.TotalPages)">最后页</a></li>
         }

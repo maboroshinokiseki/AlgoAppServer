@@ -87,6 +87,27 @@ namespace AlgoApp.Data
                 new SelectionOption { Id = 11, QuestionId = 3, Correct = false, Content = "可行性" },
                 new SelectionOption { Id = 12, QuestionId = 3, Correct = true, Content = "易用性" }
                 );
+            modelBuilder.Entity<Question>().HasData(new Question { Id = 4, ChapterId = 2, Content = "关于线性表的顺序存储结构和链式存储结构的描述中，正确的是（）。", Analysis = "无", Type = QuestionType.MultiSelection, Difficulty = 0 });
+            modelBuilder.Entity<SelectionOption>().HasData(
+                new SelectionOption { Id = 13, QuestionId = 4, Correct = false, Content = "线性表的顺序存储结构优于其链式存储结构" },
+                new SelectionOption { Id = 14, QuestionId = 4, Correct = true, Content = "链式存储结构比顺序存储结构更能方便的表示各种逻辑结构" },
+                new SelectionOption { Id = 15, QuestionId = 4, Correct = false, Content = "如频繁使用插入和删除结点操作，顺序存储结构更优于链式存储结构" },
+                new SelectionOption { Id = 16, QuestionId = 4, Correct = true, Content = "顺序存储结构和链式存储结构都可以进行顺序存取" }
+                );
+            modelBuilder.Entity<Question>().HasData(new Question { Id = 5, ChapterId = 2, Content = "关于线性表说法正确的是（）。", Analysis = "无", Type = QuestionType.MultiSelection, Difficulty = 0 });
+            modelBuilder.Entity<SelectionOption>().HasData(
+                new SelectionOption { Id = 17, QuestionId = 5, Correct = false, Content = "顺序存储方式只能用于存储线性结构" },
+                new SelectionOption { Id = 18, QuestionId = 5, Correct = true, Content = "链表需要分配较大的连续空间，插入和删除不需要移动元素" },
+                new SelectionOption { Id = 19, QuestionId = 5, Correct = true, Content = "在一个长度为n的有序单链表中插入一个新节点并仍保持有序的时间复杂度为O(n)" },
+                new SelectionOption { Id = 20, QuestionId = 5, Correct = true, Content = "若用单链表来表示队列，则应该选用带尾指针的循环链表" }
+                );
+            modelBuilder.Entity<Question>().HasData(new Question { Id = 6, ChapterId = 2, Content = "下面关于线性表的叙述中，错误的有（ ）", Analysis = "无", Type = QuestionType.MultiSelection, Difficulty = 0 });
+            modelBuilder.Entity<SelectionOption>().HasData(
+                new SelectionOption { Id = 21, QuestionId = 6, Correct = false, Content = "线性表采用顺序存储，必须占用一片连续的存储单元。" },
+                new SelectionOption { Id = 22, QuestionId = 6, Correct = true, Content = "线性表采用顺序存储，便于进行插入和删除操作。" },
+                new SelectionOption { Id = 23, QuestionId = 6, Correct = true, Content = "线性表采用链接存储，必须占用一片连续的存储单元。" },
+                new SelectionOption { Id = 24, QuestionId = 6, Correct = false, Content = "线性表采用链接存储，便于进行插入和删除操作。" }
+                );
             //modelBuilder.Entity<Question>().HasData(new Question { Id = 1, ChapterId = 1, Content = "采用邻接表存储的图的广度优先遍历算法类似于二叉树的（）。", Analysis = "无", Type = QuestionType.SingleSelection, Difficulty = 0 });
             //modelBuilder.Entity<SelectionOption>().HasData(new SelectionOption { Id = 1, QuestionId = 1, Correct = false, Content = "先序遍历" });
             //modelBuilder.Entity<SelectionOption>().HasData(new SelectionOption { Id = 2, QuestionId = 1, Correct = false, Content = "中序遍历" });
