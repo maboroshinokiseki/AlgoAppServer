@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AlgoApp.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlgoApp.Pages.Admin.Users
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class IndexModel : PageModel
     {
         private ApplicationDbContext _context;
@@ -40,10 +44,15 @@ namespace AlgoApp.Pages.Admin.Users
                 return Content("Error");
             }
 
+            var loginUid = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            if (id.ToString() == loginUid)
+            {
+                return Content("不能删除自己");
+            }
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
-                return Content("Error");
+                return Content("用户不存在");
             }
 
             _context.Users.Remove(user);

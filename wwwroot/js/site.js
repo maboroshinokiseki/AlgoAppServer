@@ -8,9 +8,15 @@ $(document).ready(
         let token = GetVerificationToken();
 
         $("button.delete-button").click(function () {
-            $(this).parents("tr").hide(500);
             let itemId = $(this).data("id");
-            $.post(window.location.href, { id: itemId, __RequestVerificationToken: token });
+            let tr = $(this).parents("tr");
+            $.post(window.location.href, { id: itemId, __RequestVerificationToken: token }, (result) => {
+                if (result == "Ok") {
+                    tr.hide(500);
+                } else {
+                    window.alert(result);
+                }
+            });
         });
 
         $("button#addStudentButton").click(function () {
